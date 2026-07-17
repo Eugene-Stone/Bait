@@ -1,0 +1,13 @@
+a[href="#main-content"] {
+	+ div {
+		> nav:first-child{
+			> div {
+				> ul {
+					> li:has(a[aria-label="Deploy"]) {
+						display: none;
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_layout_seos",
+  "info": {
+    "displayName": "SEO"
+  },
+  "options": {},
+  "attributes": {
+    "metaTitle": {
+      "type": "text"
+    },
+    "metaDescription": {
+      "type": "text"
+    }
+  },
+  "config": {}
+}

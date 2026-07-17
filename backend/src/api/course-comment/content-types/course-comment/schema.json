@@ -1,0 +1,19 @@
+{
+  "kind": "collectionType",
+  "collectionName": "course_comments",
+  "info": {
+    "singularName": "course-comment",
+    "pluralName": "course-comments",
+    "displayName": "Course comments"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "comment": {
+      "type": "string",
+      "default": "Comment"
+    }
+  }
+}
