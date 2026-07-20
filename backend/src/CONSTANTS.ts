@@ -1,9 +1,4 @@
-export const FRONTEND_URL = process.env.FRONTEND || 'http://localhost:5173/Bait/';
-
-export const SITE = {
-	name: 'Bait site',
-	url: FRONTEND_URL,
-};
+export const SITE_NAME = 'Bait site';
 
 export const PAGE_SEO = {
 	// populate: '*',

@@ -1,7 +1,65 @@
+import { buildQuery } from '@/utils/buildQuery';
 import { notFound } from 'next/navigation';
 
 export default async function Home() {
-	const response = await fetch('https://jsonplaceholder.typicode.com/todos/1', {
+	const query = buildQuery({
+		populate: {
+			sections: {
+				on: {
+					// 'sections.about': {
+					// 	populate: '*',
+					// },
+					// 'sections.gallery': {
+					// 	populate: {
+					// 		gallery: {
+					// 			populate: {
+					// 				images: true,
+					// 			},
+					// 		},
+					// 	},
+					// },
+					// 'sections.hero': {
+					// 	populate: '*',
+					// },
+					'sections.request': {
+						populate: {
+							form: {
+								populate: {
+									fields: {
+										on: {
+											'forms.form-checkboxes': {
+												populate: '*',
+											},
+											'forms.form-input': {
+												populate: '*',
+											},
+											'forms.form-select': {
+												populate: '*',
+											},
+											'forms.form-submit': {
+												populate: '*',
+											},
+											'forms.form-textarea': {
+												populate: '*',
+											},
+											'forms.form-agree': {
+												populate: '*',
+											},
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+	});
+
+	// const response = await fetch('https://jsonplaceholder.typicode.com/todos/1', {
+	// 	cache: 'no-store', // Отключение кеша
+	// });
+	const response = await fetch(`http://localhost:1337/api/homepage?${query}`, {
 		cache: 'no-store', // Отключение кеша
 	});
 
@@ -15,6 +73,7 @@ export default async function Home() {
 	const data = await response.json();
 
 	console.log(data); // Выведется в терминале, а не в браузере
+	console.log(query); // Выведется в терминале, а не в браузере
 
 	return (
 		<>

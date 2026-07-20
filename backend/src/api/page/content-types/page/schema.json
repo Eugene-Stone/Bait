@@ -32,17 +32,41 @@
       },
       "targetField": "title"
     },
-    "text": {
-      "type": "customField",
+    "description": {
+      "type": "text",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "sections": {
+      "type": "dynamiczone",
       "pluginOptions": {
         "i18n": {
           "localized": true
         }
       },
-      "customField": "plugin::ckeditor5.CKEditor",
-      "options": {
-        "preset": "defaultHtml"
-      }
+      "components": [
+        "sections.text-section",
+        "sections.service",
+        "sections.schedule",
+        "sections.reviews",
+        "sections.request",
+        "sections.hero",
+        "sections.gallery",
+        "sections.about"
+      ]
+    },
+    "seo": {
+      "type": "component",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "component": "layout.seo",
+      "repeatable": false
     }
   }
 }

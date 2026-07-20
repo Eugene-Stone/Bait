@@ -11,9 +11,27 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "comment": {
-      "type": "string",
-      "default": "Comment"
+    "title": {
+      "type": "string"
+    },
+    "text": {
+      "type": "text"
+    },
+    "isApproved": {
+      "type": "boolean",
+      "default": false
+    },
+    "course": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::course.course",
+      "inversedBy": "course_comments"
+    },
+    "users_permissions_user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "course_comments"
     }
   }
 }

@@ -1,7 +1,11 @@
 import type { StrapiApp } from '@strapi/strapi/admin';
-import { SITE } from '../CONSTANTS';
+import { SITE_NAME } from '../CONSTANTS';
 
 import './app.css';
+
+// Использлование ссылки на фронтенд из .env
+// @ts-ignore
+const FRONTEND_URL = window.__FRONTEND_URL__;
 
 export default {
 	config: {
@@ -23,10 +27,10 @@ export default {
 			const container = logo.closest('div[class]')?.parentElement;
 			if (!container) return;
 
-			container.title = `Open - ${SITE.name}`;
+			container.title = `Open - ${SITE_NAME}`;
 			container.style.cursor = 'pointer';
 			container.addEventListener('click', () => {
-				window.open(SITE.url, '_blank', 'noopener,noreferrer');
+				FRONTEND_URL && window.open(FRONTEND_URL, '_blank', 'noopener,noreferrer');
 			});
 		};
 

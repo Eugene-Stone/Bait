@@ -1,4 +1,5 @@
-
+import { Course } from './course';
+import { User } from './user';
 
 export interface CourseComment {
   id?: number;
@@ -7,5 +8,9 @@ export interface CourseComment {
   updatedAt?: Date | string;
   publishedAt?: Date | string;
   locale?: string | null;
-  comment?: string;
+  title?: string;
+  text?: string;
+  isApproved?: boolean;
+  course?: Course | null;
+  users_permissions_user?: User | null;
 };

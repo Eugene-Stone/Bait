@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_forms_form_select_options",
+  "info": {
+    "displayName": "FormSelectOptions"
+  },
+  "options": {},
+  "attributes": {
+    "label": {
+      "type": "string"
+    },
+    "value": {
+      "type": "string"
+    }
+  },
+  "config": {}
+}

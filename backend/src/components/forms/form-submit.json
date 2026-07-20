@@ -1,0 +1,13 @@
+{
+  "collectionName": "components_forms_form_submits",
+  "info": {
+    "displayName": "FormSubmit"
+  },
+  "options": {},
+  "attributes": {
+    "label": {
+      "type": "string"
+    }
+  },
+  "config": {}
+}

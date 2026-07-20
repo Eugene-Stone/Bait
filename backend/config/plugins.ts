@@ -1,5 +1,4 @@
 import type { Core } from '@strapi/strapi';
-import { FRONTEND_URL } from '../src/CONSTANTS';
 
 const allowedMediaTypes = [
 	'image/*',
@@ -53,21 +52,19 @@ const config = ({ env }: Core.Config.Shared.ConfigParams): Core.Config.Plugin =>
 				{
 					uid: 'api::homepage.homepage',
 					draft: {
-						url: `${FRONTEND_URL}`,
+						url: `${process.env.FRONTEND}`,
 					},
 					published: {
-						url: `${FRONTEND_URL}`,
+						url: `${process.env.FRONTEND}`,
 					},
 				},
 				{
 					uid: 'api::page.page',
 					draft: {
-						// url: 'https://eugene-stone.github.io/NordWood/{slug}',
-						url: `${FRONTEND_URL}{slug}`,
+						url: `${process.env.FRONTEND}/{slug}`,
 					},
 					published: {
-						// url: 'https://eugene-stone.github.io/NordWood/{slug}',
-						url: `${FRONTEND_URL}{slug}`,
+						url: `${process.env.FRONTEND}/{slug}`,
 					},
 				},
 				// {

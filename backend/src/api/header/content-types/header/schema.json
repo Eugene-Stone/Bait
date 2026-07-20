@@ -14,6 +14,13 @@
     "title": {
       "type": "string",
       "default": "Header"
+    },
+    "logo": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
     }
   }
 }

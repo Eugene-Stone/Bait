@@ -1,4 +1,4 @@
-
+import { LayoutSeo } from './layoutSeo';
 
 export interface Page {
   id?: number;
@@ -9,5 +9,7 @@ export interface Page {
   locale?: string | null;
   title?: string;
   slug?: string;
-  text?: any;
+  description?: string;
+  sections?: any;
+  seo?: LayoutSeo | null;
 };

@@ -28,6 +28,12 @@ const config = ({ env }: Core.Config.Shared.ConfigParams): Core.Config.Admin => 
 			handler: () => '',
 		},
 	},
+
+	// Добавляем кастомный конфиг
+	// @ts-ignore
+	// 'custom-config': {
+	// 	frontendUrl: env('FRONTEND', 'https://bait.vercel.app'),
+	// },
 });
 
 export default config;

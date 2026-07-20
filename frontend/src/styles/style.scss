@@ -653,6 +653,16 @@ strong {
 	}
 }
 
+@media (min-width: 992px) and (max-width: 1199px) {
+	.login-link {
+		margin-right: -10px;
+		margin-left: -10px;
+		a {
+			scale: .7
+		}
+	}
+}
+
 // Toggle Button
 .toggle-btn {
 	display: none;
@@ -667,6 +677,7 @@ strong {
 	cursor: pointer;
 	z-index: 1001;
 	box-shadow: $nb-shadow-sm;
+	scale: 1.45;
 
 	span,
 	&::before,
@@ -1889,6 +1900,7 @@ strong {
 	padding: 12px;
 	border: $nb-border;
 	box-shadow: $nb-shadow-sm;
+	width: 100%;
 
 	&:focus {
 		transform: translate(-2px, -2px);

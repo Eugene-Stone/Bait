@@ -1,4 +1,4 @@
-
+import { Media } from './media';
 
 export interface Header {
   id?: number;
@@ -8,4 +8,5 @@ export interface Header {
   publishedAt?: Date | string;
   locale?: string | null;
   title?: string;
+  logo?: Media | null;
 };
