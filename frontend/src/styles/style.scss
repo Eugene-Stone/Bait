@@ -42,6 +42,7 @@ html {
 	scroll-behavior: smooth;
 	-webkit-font-smoothing: auto;
 	-moz-osx-font-smoothing: auto;
+	scroll-padding-top: 60px;
 }
 
 body {
@@ -541,7 +542,7 @@ strong {
 	.logo {
 		display: block;
 		border: 3px solid $nb-black;
-		padding: 8px 16px;
+		padding: 3px 3px;
 		background: $nb-yellow;
 		box-shadow: 4px 4px 0 $nb-black;
 		transform: rotate(-2deg);
@@ -553,7 +554,7 @@ strong {
 		}
 
 		img {
-			height: 36px;
+			height: 46px;
 			width: auto;
 
 			@media (max-width: 768px) {
@@ -599,7 +600,7 @@ strong {
 				}
 			}
 
-			&.activeLi a,
+			&.active-li a,
 			&:has(a.active) a {
 				background: $nb-yellow;
 				box-shadow: 3px 3px 0 $nb-black;
@@ -657,6 +658,7 @@ strong {
 	.login-link {
 		margin-right: -10px;
 		margin-left: -10px;
+
 		a {
 			scale: .7
 		}
@@ -1072,10 +1074,12 @@ strong {
 	}
 
 	.form__request {
+
 		.col-md-6,
 		.col-md-12 {
 			margin-top: 30px;
 		}
+
 		label {
 			display: block;
 			font-size: 0.9rem;
@@ -1478,6 +1482,11 @@ strong {
 				color: $nb-yellow;
 				text-decoration: underline;
 			}
+		}
+
+		li.active a {
+			text-decoration: underline;
+			text-underline-offset: 4px;
 		}
 	}
 }

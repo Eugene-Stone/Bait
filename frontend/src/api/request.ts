@@ -1,4 +1,5 @@
-import NotFound from '@/app/not-found';
+import { notFound } from 'next/navigation';
+import { BACKEND_URL } from '@/constants';
 import { buildQuery } from '@/utils/buildQuery';
 
 export async function getHomePageData() {
@@ -49,15 +50,84 @@ export async function getHomePageData() {
 		},
 	});
 
-	const response = await fetch(`http://localhost:1337/api/homepage?${query}`, {
+	const response = await fetch(`${BACKEND_URL}/api/homepage?${query}`, {
 		cache: 'no-store', // Отключение кеша
 		// next: { revalidate: 60 },
 	});
 
 	if (response.status === 404) {
-		NotFound();
+		notFound();
 	}
 
+	if (!response.ok) {
+		throw new Error('Failed to fetch home page data');
+	}
+
+	return response.json();
+}
+
+export async function getPageBySlug(slug: string) {
+	const response = await fetch(`${BACKEND_URL}/api/pages?filters[slug][$eq]=${slug}&populate=*`, {
+		cache: 'no-store', // Отключение кеша
+		// next: { revalidate: 60 },
+	});
+
+	if (response.status === 404) {
+		notFound();
+	}
+
+	if (!response.ok) {
+		throw new Error('Failed to fetch home page data');
+	}
+
+	return response.json();
+}
+
+export async function getFooterData() {
+	const response = await fetch(`${BACKEND_URL}/api/footer?populate=*`, {
+		next: { revalidate: 60 },
+	});
+
+	if (!response.ok) {
+		throw new Error('Failed to fetch home page data');
+	}
+
+	return response.json();
+}
+
+export async function getFooterMenu() {
+	const response = await fetch(
+		`${BACKEND_URL}/api/navigation/render/footer-navigation?type=TREE&locale=ru`,
+		{
+			next: { revalidate: 60 },
+		},
+	);
+	if (!response.ok) {
+		throw new Error('Failed to fetch home page data');
+	}
+
+	return response.json();
+}
+
+export async function getHeaderData() {
+	const response = await fetch(`${BACKEND_URL}/api/header?populate=*`, {
+		next: { revalidate: 60 },
+	});
+
+	if (!response.ok) {
+		throw new Error('Failed to fetch home page data');
+	}
+
+	return response.json();
+}
+
+export async function getHeaderMenu() {
+	const response = await fetch(
+		`${BACKEND_URL}/api/navigation/render/header-navigation?type=TREE&locale=ru`,
+		{
+			next: { revalidate: 60 },
+		},
+	);
 	if (!response.ok) {
 		throw new Error('Failed to fetch home page data');
 	}

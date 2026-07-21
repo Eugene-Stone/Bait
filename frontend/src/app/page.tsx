@@ -8,6 +8,7 @@ import Schedule from '@/components/sections/Schedule';
 import Service from '@/components/sections/Service';
 import TextSection from '@/components/sections/TextSection';
 import { BACKEND_URL } from '@/constants';
+import ScrollToHash from '@/utils/ScrollToHash';
 import { LayoutSeo } from '@backend-types/layoutSeo';
 import { Metadata } from 'next';
 
@@ -49,6 +50,7 @@ export default async function Home() {
 
 	return (
 		<>
+			{/* <ScrollToHash /> */}
 			{sections.map((sect: any, i: number) => {
 				switch (sect.__component) {
 					case 'sections.about':

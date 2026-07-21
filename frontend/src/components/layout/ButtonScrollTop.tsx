@@ -1,15 +1,9 @@
 'use client';
+import { scrollToTop } from '@/utils/scrollToTop';
 import { useState, useEffect } from 'react';
 
 const ButtonScrollTop = () => {
 	const [isVisible, setIsVisible] = useState(false);
-
-	const scrollToTop = () => {
-		window.scrollTo({
-			top: 0,
-			behavior: 'smooth', // Smooth scrolling behavior
-		});
-	};
 
 	// Show button when page is scrolled down
 	const toggleVisibility = () => {
