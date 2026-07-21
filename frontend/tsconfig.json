@@ -21,10 +21,11 @@
     "paths": {
       "@/*": ["./src/*"],
 		/* Импорт типов из бекенда */
-		"@types/*": ["../backend/src/genTypes/*"]
+		"@backend-types/*": ["../backend/src/genTypes/*"]
     }
   },
   "include": [
+    "../backend/src/genTypes/*",
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",

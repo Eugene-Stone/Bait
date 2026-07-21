@@ -3,9 +3,12 @@ import '../styles/style.scss';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { ViewTransition } from 'react';
+import ButtonScrollTop from '@/components/layout/ButtonScrollTop';
+import ReloadToTop from '@/utils/ReloadToTop';
+import { FRONTEND_URL } from '@/constants';
 
 export const metadata: Metadata = {
-	metadataBase: new URL('https://site.com'),
+	metadataBase: new URL(FRONTEND_URL),
 
 	title: {
 		default: 'БАЙТ | Школа программирования',
@@ -43,6 +46,7 @@ export default function RootLayout({
 		<html lang="en">
 			<body>
 				<div className="wrapper">
+					{/* <ReloadToTop /> */}
 					<Header />
 
 					<div className="layout">
@@ -52,7 +56,7 @@ export default function RootLayout({
 					</div>
 
 					<Footer />
-					<button className="scroll-to-top " />
+					<ButtonScrollTop />
 				</div>
 			</body>
 		</html>
