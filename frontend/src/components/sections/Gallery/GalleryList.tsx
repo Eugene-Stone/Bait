@@ -28,7 +28,7 @@ export default function GalleryList({ gallery }: Props) {
 	const visibleImages = images?.slice(0, visibleCount);
 
 	const [indexShowing, setIndexShowing] = useState(-1);
-	const slidesLightbox = images?.map((img, i) => {
+	const slidesLightbox = visibleImages?.map((img, i) => {
 		return {
 			src: BACKEND_URL + img.url,
 			// title: 'Slide title',

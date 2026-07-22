@@ -191,7 +191,6 @@ export interface SectionsReviews extends Struct.ComponentSchema {
   attributes: {
     anchor: Schema.Attribute.String;
     description: Schema.Attribute.Text;
-    reviews: Schema.Attribute.Relation<'oneToMany', 'api::review.review'>;
     title: Schema.Attribute.Text;
   };
 }

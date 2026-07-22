@@ -40,7 +40,9 @@ const queryPage = buildQuery({
 						},
 					},
 				},
-				'sections.reviews': { populate: '*' },
+				'sections.reviews': {
+					populate: '*',
+				},
 				'sections.schedule': { populate: '*' },
 				'sections.service': { populate: '*' },
 				'sections.text-section': { populate: '*' },

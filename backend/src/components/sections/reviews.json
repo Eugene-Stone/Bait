@@ -11,11 +11,6 @@
     "description": {
       "type": "text"
     },
-    "reviews": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::review.review"
-    },
     "anchor": {
       "type": "string"
     }
