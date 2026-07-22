@@ -5,9 +5,9 @@ type Props = {
 	data: SectionsService;
 };
 export default function Service({ data }: Props) {
-	const { title, text } = data;
+	const { title, text, anchor } = data;
 	return (
-		<section id="service" className="sect-txt bg-color-2">
+		<section id={anchor} className="sect-txt bg-color-2">
 			<div className="sect-inner">
 				<div className="container">
 					<div className="title-sect">

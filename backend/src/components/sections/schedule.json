@@ -24,6 +24,9 @@
       "options": {
         "preset": "defaultHtml"
       }
+    },
+    "anchor": {
+      "type": "string"
     }
   },
   "config": {}

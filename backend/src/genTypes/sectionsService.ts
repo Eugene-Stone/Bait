@@ -5,4 +5,5 @@ export interface SectionsService {
   title?: string;
   description?: string;
   text?: any;
+  anchor?: string;
 };

@@ -5,4 +5,5 @@ export interface SectionsTextSection {
   title?: string;
   description?: string;
   text?: any;
+  anchor?: string;
 };

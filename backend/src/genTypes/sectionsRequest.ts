@@ -5,4 +5,5 @@ export interface SectionsRequest {
   title?: string;
   description?: string;
   form?: Form | null;
+  anchor?: string;
 };

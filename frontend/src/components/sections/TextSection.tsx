@@ -5,9 +5,9 @@ type Props = {
 	data: SectionsTextSection;
 };
 export default function TextSection({ data }: Props) {
-	const { title, text } = data;
+	const { title, text, anchor } = data;
 	return (
-		<section className="sect-txt">
+		<section id={anchor} className="sect-txt">
 			<div className="sect-inner">
 				<div className="container">
 					<div className="title-sect">

@@ -124,6 +124,7 @@ export interface SectionsAbout extends Struct.ComponentSchema {
     displayName: 'About';
   };
   attributes: {
+    anchor: Schema.Attribute.String;
     description: Schema.Attribute.Text;
     image: Schema.Attribute.Media<'images'>;
     text: Schema.Attribute.RichText &
@@ -143,6 +144,7 @@ export interface SectionsGallery extends Struct.ComponentSchema {
     displayName: 'Gallery';
   };
   attributes: {
+    anchor: Schema.Attribute.String;
     description: Schema.Attribute.Text;
     gallery: Schema.Attribute.Relation<'oneToOne', 'api::gallery.gallery'>;
     title: Schema.Attribute.String;
@@ -155,6 +157,7 @@ export interface SectionsHero extends Struct.ComponentSchema {
     displayName: 'Hero';
   };
   attributes: {
+    anchor: Schema.Attribute.String;
     image: Schema.Attribute.Media<'images'>;
     text: Schema.Attribute.RichText &
       Schema.Attribute.CustomField<
@@ -173,6 +176,7 @@ export interface SectionsRequest extends Struct.ComponentSchema {
     displayName: 'Request';
   };
   attributes: {
+    anchor: Schema.Attribute.String;
     description: Schema.Attribute.Text;
     form: Schema.Attribute.Relation<'oneToOne', 'api::form.form'>;
     title: Schema.Attribute.String;
@@ -185,6 +189,7 @@ export interface SectionsReviews extends Struct.ComponentSchema {
     displayName: 'Reviews';
   };
   attributes: {
+    anchor: Schema.Attribute.String;
     description: Schema.Attribute.Text;
     reviews: Schema.Attribute.Relation<'oneToMany', 'api::review.review'>;
     title: Schema.Attribute.Text;
@@ -197,6 +202,7 @@ export interface SectionsSchedule extends Struct.ComponentSchema {
     displayName: 'Schedule';
   };
   attributes: {
+    anchor: Schema.Attribute.String;
     description: Schema.Attribute.Text;
     leftText: Schema.Attribute.RichText &
       Schema.Attribute.CustomField<
@@ -222,6 +228,7 @@ export interface SectionsService extends Struct.ComponentSchema {
     displayName: 'Service';
   };
   attributes: {
+    anchor: Schema.Attribute.String;
     description: Schema.Attribute.Text;
     text: Schema.Attribute.RichText &
       Schema.Attribute.CustomField<
@@ -240,6 +247,7 @@ export interface SectionsTextSection extends Struct.ComponentSchema {
     displayName: 'Text Section';
   };
   attributes: {
+    anchor: Schema.Attribute.String;
     description: Schema.Attribute.Text;
     text: Schema.Attribute.RichText &
       Schema.Attribute.CustomField<

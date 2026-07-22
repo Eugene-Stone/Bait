@@ -24,6 +24,9 @@
       "allowedTypes": [
         "images"
       ]
+    },
+    "anchor": {
+      "type": "string"
     }
   },
   "config": {}

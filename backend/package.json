@@ -25,6 +25,7 @@
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "^6.0.0",
+    "strapi-5-sitemap-plugin": "^1.0.8",
     "strapi-dz-component-duplicator": "^0.1.6",
     "strapi-plugin-content-manager-organizer": "^2.0.1",
     "strapi-plugin-gen-types": "^0.0.16",

@@ -9,7 +9,7 @@ type Props = {
 };
 
 export default function About({ data }: Props) {
-	const { title, text, image } = data;
+	const { title, text, image, anchor } = data;
 
 	const imageFormats = image && imageSrcSet(image);
 	const srcSetString = imageFormats
@@ -17,7 +17,7 @@ export default function About({ data }: Props) {
 		.join(', ');
 
 	return (
-		<section id="about" className="sect-txt bg-color-1">
+		<section id={anchor} className="sect-txt bg-color-1">
 			<div className="sect-inner">
 				<div className="container">
 					<div className="title-sect">

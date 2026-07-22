@@ -10,8 +10,6 @@ export async function generateMetadata(): Promise<Metadata> {
 
 	const pageTitle = dataPage.data.title;
 	const seo: LayoutSeo = dataPage?.data?.seo;
-	console.log(pageTitle);
-	console.log(seo);
 
 	const {
 		canonical,
@@ -37,7 +35,7 @@ export async function generateMetadata(): Promise<Metadata> {
 		},
 		robots: {
 			index: !noindex,
-			follow: !noindex,
+			follow: !nofollow,
 		},
 		openGraph: {
 			title: ogTitle || metaTitle || pageTitle,

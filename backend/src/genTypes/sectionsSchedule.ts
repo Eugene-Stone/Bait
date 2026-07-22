@@ -6,4 +6,5 @@ export interface SectionsSchedule {
   description?: string;
   leftText?: any;
   rightText?: any;
+  anchor?: string;
 };

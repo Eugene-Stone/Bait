@@ -5,9 +5,9 @@ type Props = {
 	data: SectionsSchedule;
 };
 export default function Schedule({ data }: Props) {
-	const { title, leftText, rightText } = data;
+	const { title, leftText, rightText, anchor } = data;
 	return (
-		<section id="schedule" className="sect-txt bg-color-3">
+		<section id={anchor} className="sect-txt bg-color-3">
 			<div className="sect-inner">
 				<div className="container">
 					<div className="title-sect">

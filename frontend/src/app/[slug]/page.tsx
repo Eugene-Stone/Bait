@@ -39,7 +39,7 @@ export async function generateMetadata({
 		},
 		robots: {
 			index: !noindex,
-			follow: !noindex,
+			follow: !nofollow,
 		},
 		openGraph: {
 			title: ogTitle || metaTitle || pageTitle,

@@ -5,4 +5,5 @@ export interface SectionsHero {
   title?: string;
   text?: any;
   image?: Media | null;
+  anchor?: string;
 };

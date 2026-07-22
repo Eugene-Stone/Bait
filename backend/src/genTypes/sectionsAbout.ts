@@ -6,4 +6,5 @@ export interface SectionsAbout {
   description?: string;
   text?: any;
   image?: Media | null;
+  anchor?: string;
 };

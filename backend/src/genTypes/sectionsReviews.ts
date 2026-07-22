@@ -5,4 +5,5 @@ export interface SectionsReviews {
   title?: string;
   description?: string;
   reviews?: Review[] | null;
+  anchor?: string;
 };

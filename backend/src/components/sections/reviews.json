@@ -15,6 +15,9 @@
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::review.review"
+    },
+    "anchor": {
+      "type": "string"
     }
   },
   "config": {}

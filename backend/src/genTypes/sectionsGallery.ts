@@ -5,4 +5,5 @@ export interface SectionsGallery {
   title?: string;
   description?: string;
   gallery?: Gallery | null;
+  anchor?: string;
 };
