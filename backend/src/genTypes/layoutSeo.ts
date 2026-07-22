@@ -6,7 +6,6 @@ export interface LayoutSeo {
   metaDescription?: string;
   metaKeywords?: string;
   canonical?: string;
-  ogType?: string;
   ogTitle?: string;
   ogDescription?: string;
   ogImage?: Media | null;

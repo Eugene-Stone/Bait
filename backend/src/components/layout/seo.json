@@ -6,7 +6,7 @@
   "options": {},
   "attributes": {
     "metaTitle": {
-      "type": "text"
+      "type": "string"
     },
     "metaDescription": {
       "type": "text"
@@ -16,10 +16,6 @@
     },
     "canonical": {
       "type": "string"
-    },
-    "ogType": {
-      "type": "string",
-      "default": "website"
     },
     "ogTitle": {
       "type": "text"

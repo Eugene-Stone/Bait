@@ -1,78 +1,64 @@
 import { getHomePageData } from '@/api/request';
-import About from '@/components/sections/About';
-import Gallery from '@/components/sections/Gallery';
-import Hero from '@/components/sections/Hero';
-import Request from '@/components/sections/Request';
-import Reviews from '@/components/sections/Reviews';
-import Schedule from '@/components/sections/Schedule';
-import Service from '@/components/sections/Service';
-import TextSection from '@/components/sections/TextSection';
-import { BACKEND_URL } from '@/constants';
-import ScrollToHash from '@/utils/ScrollToHash';
+import DynamicSections from '@/components/sections/DynamicSections';
+
+import { BACKEND_URL, FRONTEND_URL, SITE_TITLE } from '@/constants';
 import { LayoutSeo } from '@backend-types/layoutSeo';
 import { Metadata } from 'next';
 
 export async function generateMetadata(): Promise<Metadata> {
 	const dataPage = await getHomePageData();
-	const seo: LayoutSeo | undefined = dataPage?.data?.seo;
 
-	const ogImageUrl = seo?.ogImage?.url ? `${BACKEND_URL}${seo.ogImage.url}` : './icon.png';
+	const pageTitle = dataPage.data.title;
+	const seo: LayoutSeo = dataPage?.data?.seo;
+	console.log(pageTitle);
+	console.log(seo);
+
+	const {
+		canonical,
+		metaDescription,
+		metaKeywords,
+		metaTitle,
+		nofollow,
+		noindex,
+		ogDescription,
+		ogTitle,
+		structuredData,
+		ogImage,
+	} = seo;
+
+	const ogImageUrl = ogImage?.url ? `${BACKEND_URL}${ogImage.url}` : '/images/logo.png';
 
 	return {
-		title: seo?.metaTitle,
-		description: seo?.metaDescription,
-		keywords: seo?.metaKeywords,
+		title: metaTitle || pageTitle,
+		description: metaDescription,
+		keywords: metaKeywords,
 		alternates: {
-			canonical: seo?.canonical,
+			canonical: canonical || '/',
 		},
 		robots: {
-			index: !seo?.noindex,
-			follow: !seo?.noindex,
+			index: !noindex,
+			follow: !noindex,
 		},
 		openGraph: {
-			title: seo?.ogTitle || seo?.metaTitle,
-			description: seo?.ogDescription || seo?.metaDescription,
+			title: ogTitle || metaTitle || pageTitle,
+			siteName: SITE_TITLE,
+			type: 'website',
+			locale: 'ru_RU',
+			description: ogDescription || metaDescription,
 			images: [
 				{
 					url: ogImageUrl,
-					width: seo?.ogImage?.width || 1200,
-					height: seo?.ogImage?.height || 630,
+					width: ogImage?.width || 1000,
+					height: ogImage?.height || 500,
 				},
 			],
 		},
 	};
 }
 
-// 2. Основной компонент страницы
 export default async function Home() {
 	const dataPage = await getHomePageData();
 	const { sections }: { sections: any[] } = dataPage.data;
 
-	return (
-		<>
-			{/* <ScrollToHash /> */}
-			{sections.map((sect: any, i: number) => {
-				switch (sect.__component) {
-					case 'sections.about':
-						return <About key={i} data={sect} />;
-					case 'sections.gallery':
-						return <Gallery key={i} data={sect} />;
-					case 'sections.hero':
-						return <Hero key={i} data={sect} />;
-					case 'sections.request':
-						return <Request key={i} data={sect} />;
-					case 'sections.reviews':
-						return <Reviews key={i} data={sect} />;
-					case 'sections.schedule':
-						return <Schedule key={i} data={sect} />;
-					case 'sections.service':
-						return <Service key={i} data={sect} />;
-					case 'sections.text-section':
-						return <TextSection key={i} data={sect} />;
-					default:
-						return null;
-				}
-			})}
-		</>
-	);
+	return <>{sections && <DynamicSections sections={sections} />}</>;
 }

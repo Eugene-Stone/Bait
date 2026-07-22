@@ -2,55 +2,55 @@ import { notFound } from 'next/navigation';
 import { BACKEND_URL } from '@/constants';
 import { buildQuery } from '@/utils/buildQuery';
 
-export async function getHomePageData() {
-	const query = buildQuery({
-		populate: {
-			seo: {
-				populate: {
-					ogImage: true,
-				},
+const queryPage = buildQuery({
+	populate: {
+		seo: {
+			populate: {
+				ogImage: true,
 			},
-			sections: {
-				on: {
-					'sections.about': { populate: '*' },
-					'sections.gallery': {
-						populate: {
-							gallery: {
-								populate: {
-									images: true,
-								},
+		},
+		sections: {
+			on: {
+				'sections.about': { populate: '*' },
+				'sections.gallery': {
+					populate: {
+						gallery: {
+							populate: {
+								images: true,
 							},
 						},
 					},
-					'sections.hero': { populate: '*' },
-					'sections.request': {
-						populate: {
-							form: {
-								populate: {
-									fields: {
-										on: {
-											'forms.form-checkboxes': { populate: '*' },
-											'forms.form-input': { populate: '*' },
-											'forms.form-select': { populate: '*' },
-											'forms.form-submit': { populate: '*' },
-											'forms.form-textarea': { populate: '*' },
-											'forms.form-agree': { populate: '*' },
-										},
+				},
+				'sections.hero': { populate: '*' },
+				'sections.request': {
+					populate: {
+						form: {
+							populate: {
+								fields: {
+									on: {
+										'forms.form-checkboxes': { populate: '*' },
+										'forms.form-input': { populate: '*' },
+										'forms.form-select': { populate: '*' },
+										'forms.form-submit': { populate: '*' },
+										'forms.form-textarea': { populate: '*' },
+										'forms.form-agree': { populate: '*' },
 									},
 								},
 							},
 						},
 					},
-					'sections.reviews': { populate: '*' },
-					'sections.schedule': { populate: '*' },
-					'sections.service': { populate: '*' },
-					'sections.text-section': { populate: '*' },
 				},
+				'sections.reviews': { populate: '*' },
+				'sections.schedule': { populate: '*' },
+				'sections.service': { populate: '*' },
+				'sections.text-section': { populate: '*' },
 			},
 		},
-	});
+	},
+});
 
-	const response = await fetch(`${BACKEND_URL}/api/homepage?${query}`, {
+export async function getHomePageData() {
+	const response = await fetch(`${BACKEND_URL}/api/homepage?${queryPage}`, {
 		cache: 'no-store', // Отключение кеша
 		// next: { revalidate: 60 },
 	});
@@ -67,10 +67,13 @@ export async function getHomePageData() {
 }
 
 export async function getPageBySlug(slug: string) {
-	const response = await fetch(`${BACKEND_URL}/api/pages?filters[slug][$eq]=${slug}&populate=*`, {
-		cache: 'no-store', // Отключение кеша
-		// next: { revalidate: 60 },
-	});
+	const response = await fetch(
+		`${BACKEND_URL}/api/pages?filters[slug][$eq]=${slug}&${queryPage}`,
+		{
+			cache: 'no-store', // Отключение кеша
+			// next: { revalidate: 60 },
+		},
+	);
 
 	if (response.status === 404) {
 		notFound();

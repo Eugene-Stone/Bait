@@ -4,7 +4,7 @@ a[href="#main-content"] {
 			> div {
 				> ul {
 					> li:has(a[aria-label="Deploy"]),
-					> li:has(a[aria-label="SEO"]),
+					/* > li:has(a[aria-label="SEO"]), */
 					> li:has(a[aria-label="Generated Types"]) {
 						display: none;
 					}

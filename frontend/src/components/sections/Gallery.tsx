@@ -1,4 +1,10 @@
-export default function Gallery() {
+import { SectionsGallery } from '@backend-types/sectionsGallery';
+
+type Props = {
+	data: SectionsGallery;
+};
+
+export default function Gallery({ data }: Props) {
 	return (
 		<section id="gallery" className="sect-gallery bg-color-1">
 			<div className="sect-inner">

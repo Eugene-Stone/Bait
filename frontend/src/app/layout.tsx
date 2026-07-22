@@ -5,18 +5,24 @@ import Footer from '@/components/layout/Footer';
 import { ViewTransition } from 'react';
 import ButtonScrollTop from '@/components/layout/ButtonScrollTop';
 import ReloadToTop from '@/utils/ReloadToTop';
-import { FRONTEND_URL } from '@/constants';
+import { FRONTEND_URL, SITE_TITLE } from '@/constants';
 
 export const metadata: Metadata = {
 	metadataBase: new URL(FRONTEND_URL),
 
 	title: {
 		default: 'БАЙТ | Школа программирования',
-		template: '%s | БАЙТ',
+		template: `%s | ${SITE_TITLE}`,
 	},
 
 	description: 'Школа программирования БАЙТ. Обучаем Python, JavaScript и веб-разработке.',
 	keywords: ['школа программирования', 'Python', 'JavaScript', 'веб-разработка'],
+	icons: {
+		icon: '/img/favicon.png',
+	},
+	// alternates: {
+	// 	canonical: FRONTEND_URL,
+	// },
 
 	robots: {
 		index: true,
@@ -24,14 +30,16 @@ export const metadata: Metadata = {
 	},
 
 	openGraph: {
+		title: SITE_TITLE,
+		siteName: SITE_TITLE,
 		type: 'website',
 		locale: 'ru_RU',
-		siteName: 'БАЙТ',
+		description: 'Школа программирования БАЙТ. Обучаем Python, JavaScript и веб-разработке.',
 		images: [
 			{
-				url: '/og-image.png',
-				width: 1200,
-				height: 630,
+				url: '/images/logo.png',
+				width: 1000,
+				height: 500,
 			},
 		],
 	},

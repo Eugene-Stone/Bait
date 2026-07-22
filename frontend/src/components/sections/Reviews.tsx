@@ -1,4 +1,9 @@
-export default function Reviews() {
+import { SectionsReviews } from '@backend-types/sectionsReviews';
+
+type Props = {
+	data: SectionsReviews;
+};
+export default function Reviews({ data }: Props) {
 	return (
 		<section className="sect-reviews">
 			<div className="container">

@@ -8,7 +8,7 @@ type Props = {
 };
 
 export default function Menu({ menu }: Props) {
-	console.log(menu);
+	// console.log(menu);
 	return (
 		<nav className="mnu-wrap">
 			<div className="menu-header-menu-container">

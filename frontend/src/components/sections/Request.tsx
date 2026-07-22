@@ -1,4 +1,9 @@
-export default function Request() {
+import { SectionsRequest } from '@backend-types/sectionsRequest';
+
+type Props = {
+	data: SectionsRequest;
+};
+export default function Request({ data }: Props) {
 	return (
 		<section id="request" className="sect-request bg-color-2">
 			<div className="sect-inner">

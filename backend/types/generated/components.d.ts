@@ -108,13 +108,12 @@ export interface LayoutSeo extends Struct.ComponentSchema {
     canonical: Schema.Attribute.String;
     metaDescription: Schema.Attribute.Text;
     metaKeywords: Schema.Attribute.Text;
-    metaTitle: Schema.Attribute.Text;
+    metaTitle: Schema.Attribute.String;
     nofollow: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     noindex: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     ogDescription: Schema.Attribute.Text;
     ogImage: Schema.Attribute.Media<'images'>;
     ogTitle: Schema.Attribute.Text;
-    ogType: Schema.Attribute.String & Schema.Attribute.DefaultTo<'website'>;
     structuredData: Schema.Attribute.Text;
   };
 }
