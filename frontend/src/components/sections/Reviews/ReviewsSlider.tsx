@@ -9,6 +9,8 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
+import { useEffect, useState } from 'react';
+import { BACKEND_URL } from '@/constants';
 
 type Props = {
 	reviewsData: {
@@ -19,7 +21,31 @@ type Props = {
 
 export default function ReviewsSlider({ reviewsData }: Props) {
 	const { data: reviews } = reviewsData;
-	console.log(reviews);
+
+	// const [tempData, setTempData] = useState();
+	// useEffect(() => {
+	// 	async function fetchReviews() {
+	// 		try {
+	// 			const response = await fetch(`${BACKEND_URL}/api/reviews?populate=*`, {
+	// 				method: 'GET',
+	// 			});
+
+	// 			if (!response.ok) {
+	// 				throw new Error('Failed to fetch home page data');
+	// 			}
+
+	// 			// Await the JSON parsing
+	// 			const data = await response.json();
+	// 			// Pass the resolved data to state
+	// 			setTempData(data);
+	// 		} catch (error) {
+	// 			console.log(error instanceof Error ? error.message : 'Unknown error');
+	// 		}
+	// 	}
+
+	// 	fetchReviews();
+	// }, []);
+	// console.log(tempData);
 
 	return (
 		<div className="reviews__slider swiper__slider">
