@@ -603,7 +603,8 @@ export interface ApiFormRequestFormRequest extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    formData: Schema.Attribute.JSON;
+    formData: Schema.Attribute.JSON &
+      Schema.Attribute.CustomField<'plugin::strapi-code-editor-custom-field.code-editor-json'>;
     formTitle: Schema.Attribute.String;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<

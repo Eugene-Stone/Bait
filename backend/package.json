@@ -22,10 +22,12 @@
     "@strapi/plugin-users-permissions": "5.50.1",
     "@strapi/strapi": "5.50.1",
     "better-sqlite3": "12.8.0",
+    "monaco-editor": "^0.56.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "^6.0.0",
     "strapi-5-sitemap-plugin": "^1.0.8",
+    "strapi-code-editor-custom-field": "^1.1.0",
     "strapi-dz-component-duplicator": "^0.1.6",
     "strapi-plugin-content-manager-organizer": "^2.0.1",
     "strapi-plugin-gen-types": "^0.0.16",
@@ -33,11 +35,13 @@
     "strapi-plugin-preview-button": "^3.0.2",
     "styled-components": "^6.0.0"
   },
+
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vite-plugin-monaco-editor": "^1.1.0"
   },
   "engines": {
     "node": ">=20.0.0 <=26.x.x",

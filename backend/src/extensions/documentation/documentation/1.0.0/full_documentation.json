@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "2026-07-22T12:29:38.031Z"
+    "x-generation-date": "2026-07-23T10:03:13.003Z"
   },
   "x-strapi-config": {
     "plugins": [
@@ -17272,7 +17272,7 @@
           }
         }
       },
-      "FormsFormCheckboxesListComponent": {
+      "FormsFormCheckboxComponent": {
         "type": "object",
         "properties": {
           "id": {
@@ -17331,7 +17331,7 @@
           "items": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/FormsFormCheckboxesListComponent"
+              "$ref": "#/components/schemas/FormsFormCheckboxComponent"
             }
           }
         }

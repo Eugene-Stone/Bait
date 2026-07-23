@@ -3,7 +3,7 @@ import type { Schema, Struct } from '@strapi/strapi';
 export interface FormsFormAgree extends Struct.ComponentSchema {
   collectionName: 'components_forms_form_agrees';
   info: {
-    displayName: 'FormAgree';
+    displayName: 'Form Agree';
   };
   attributes: {
     label: Schema.Attribute.String;
@@ -11,13 +11,25 @@ export interface FormsFormAgree extends Struct.ComponentSchema {
   };
 }
 
+export interface FormsFormCheckbox extends Struct.ComponentSchema {
+  collectionName: 'components_forms_form_checkboxes_list';
+  info: {
+    displayName: 'Form Checkbox';
+  };
+  attributes: {
+    isChecked: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    title: Schema.Attribute.String;
+    value: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
 export interface FormsFormCheckboxes extends Struct.ComponentSchema {
   collectionName: 'components_forms_form_checkboxes';
   info: {
-    displayName: 'FormCheckboxes';
+    displayName: 'Form Checkboxes';
   };
   attributes: {
-    items: Schema.Attribute.Component<'forms.form-checkboxes-list', true>;
+    items: Schema.Attribute.Component<'forms.form-checkbox', true>;
     label: Schema.Attribute.String;
     name: Schema.Attribute.String & Schema.Attribute.Required;
     type: Schema.Attribute.Enumeration<['checkbox', 'radio']> &
@@ -25,22 +37,10 @@ export interface FormsFormCheckboxes extends Struct.ComponentSchema {
   };
 }
 
-export interface FormsFormCheckboxesList extends Struct.ComponentSchema {
-  collectionName: 'components_forms_form_checkboxes_lists';
-  info: {
-    displayName: 'FormCheckbox';
-  };
-  attributes: {
-    isChecked: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
-    title: Schema.Attribute.String;
-    value: Schema.Attribute.String;
-  };
-}
-
 export interface FormsFormInput extends Struct.ComponentSchema {
   collectionName: 'components_forms_form_inputs';
   info: {
-    displayName: 'FormInput';
+    displayName: 'Form Input';
   };
   attributes: {
     isRequired: Schema.Attribute.Boolean;
@@ -54,7 +54,7 @@ export interface FormsFormInput extends Struct.ComponentSchema {
 export interface FormsFormSelect extends Struct.ComponentSchema {
   collectionName: 'components_forms_form_selects';
   info: {
-    displayName: 'FormSelect';
+    displayName: 'Form Select';
   };
   attributes: {
     isRequired: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
@@ -68,7 +68,7 @@ export interface FormsFormSelect extends Struct.ComponentSchema {
 export interface FormsFormSelectOptions extends Struct.ComponentSchema {
   collectionName: 'components_forms_form_select_options';
   info: {
-    displayName: 'FormSelectOptions';
+    displayName: 'Form Select Options';
   };
   attributes: {
     label: Schema.Attribute.String;
@@ -79,7 +79,7 @@ export interface FormsFormSelectOptions extends Struct.ComponentSchema {
 export interface FormsFormSubmit extends Struct.ComponentSchema {
   collectionName: 'components_forms_form_submits';
   info: {
-    displayName: 'FormSubmit';
+    displayName: 'Form Submit';
   };
   attributes: {
     label: Schema.Attribute.String;
@@ -89,7 +89,7 @@ export interface FormsFormSubmit extends Struct.ComponentSchema {
 export interface FormsFormTextarea extends Struct.ComponentSchema {
   collectionName: 'components_forms_form_textareas';
   info: {
-    displayName: 'FormTextarea';
+    displayName: 'Form Textarea';
   };
   attributes: {
     isRequired: Schema.Attribute.Boolean;
@@ -263,8 +263,8 @@ declare module '@strapi/strapi' {
   export namespace Public {
     export interface ComponentSchemas {
       'forms.form-agree': FormsFormAgree;
+      'forms.form-checkbox': FormsFormCheckbox;
       'forms.form-checkboxes': FormsFormCheckboxes;
-      'forms.form-checkboxes-list': FormsFormCheckboxesList;
       'forms.form-input': FormsFormInput;
       'forms.form-select': FormsFormSelect;
       'forms.form-select-options': FormsFormSelectOptions;

@@ -8,5 +8,5 @@ export interface FormRequest {
   publishedAt?: Date | string;
   locale?: string | null;
   formTitle?: string;
-  formData?: Record<string, any>;
+  formData?: any;
 };

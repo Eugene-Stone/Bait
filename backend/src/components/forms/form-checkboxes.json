@@ -1,7 +1,7 @@
 {
   "collectionName": "components_forms_form_checkboxes",
   "info": {
-    "displayName": "FormCheckboxes"
+    "displayName": "Form Checkboxes"
   },
   "options": {},
   "attributes": {
@@ -22,7 +22,7 @@
     },
     "items": {
       "type": "component",
-      "component": "forms.form-checkboxes-list",
+      "component": "forms.form-checkbox",
       "repeatable": true
     }
   },

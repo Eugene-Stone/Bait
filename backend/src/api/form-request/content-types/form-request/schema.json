@@ -15,7 +15,8 @@
       "type": "string"
     },
     "formData": {
-      "type": "json"
+      "type": "customField",
+      "customField": "plugin::strapi-code-editor-custom-field.code-editor-json"
     }
   }
 }

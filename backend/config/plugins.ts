@@ -45,6 +45,9 @@ const config = ({ env }: Core.Config.Shared.ConfigParams): Core.Config.Plugin =>
 	'strapi-dz-component-duplicator': {
 		enabled: true,
 	},
+	'strapi-code-editor-custom-field': {
+		enabled: true,
+	},
 	'preview-button': {
 		config: {
 			enabled: true,

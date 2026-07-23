@@ -1,7 +1,7 @@
 {
-  "collectionName": "components_forms_form_checkboxes_lists",
+  "collectionName": "components_forms_form_checkboxes_list",
   "info": {
-    "displayName": "FormCheckbox"
+    "displayName": "Form Checkbox"
   },
   "options": {},
   "attributes": {
@@ -9,7 +9,8 @@
       "type": "string"
     },
     "value": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "isChecked": {
       "type": "boolean",

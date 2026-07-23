@@ -34,13 +34,28 @@ export default function Form({ form }: Props) {
 	const { title, description, submitUrl, successMessage, errorMessage, fields } = form;
 	const [status, setStatus] = useState<FormStatus>('idle');
 
+	const defaultValues: FormValues = {};
+	fields?.forEach((field: FormField) => {
+		if (field.__component !== 'forms.form-checkboxes') return;
+
+		if (field.type === 'checkbox') {
+			defaultValues[field.name] =
+				field.items?.filter((item) => item.isChecked).map((item) => item.value) ?? [];
+		}
+		if (field.type === 'radio') {
+			defaultValues[field.name] = field.items?.find((item) => item.isChecked)?.value ?? '';
+		}
+	});
+
 	const {
 		register,
 		handleSubmit,
 		reset,
+		watch,
 		formState: { errors, isValid },
 	} = useForm<FormValues>({
 		mode: 'onChange',
+		defaultValues,
 	});
 
 	function onSubmit(data: FormValues) {
@@ -69,8 +84,10 @@ export default function Form({ form }: Props) {
 						data: {
 							formTitle: title,
 							// formData: values,
-							// formData: JSON.stringify(values),
-							formData: formattedData,
+							formData: JSON.stringify(values),
+							// formDataJSON: JSON.stringify(values),
+							// formDataJSONStandart: JSON.stringify(values),
+							// formData: formattedData,
 						},
 					}),
 				},
@@ -109,7 +126,6 @@ export default function Form({ form }: Props) {
 											<div key={i} className="col-md-6">
 												<p>
 													<label>{field.label}</label>
-													<br />
 													<input
 														{...register(field.name, {
 															required: field.isRequired
@@ -135,7 +151,6 @@ export default function Form({ form }: Props) {
 											<div key={i} className="col-md-12">
 												<p>
 													<label>{field.label}</label>
-													<br />
 													<textarea
 														{...register(field.name, {
 															required: field.isRequired
@@ -160,7 +175,6 @@ export default function Form({ form }: Props) {
 											<div key={i} className="col-md-6">
 												<p>
 													<label>{field.label}</label>
-													<br />
 													<select
 														{...register(field.name, {
 															required: field.isRequired
@@ -193,19 +207,17 @@ export default function Form({ form }: Props) {
 											<div key={i} className="col-md-12">
 												<p>
 													<label>{field.label}</label>
-													<br />
 													{field.items?.map((item, i) => {
 														return (
-															<label key={i}>
+															<label key={item.id}>
 																<input
 																	{...register(field.name)}
+																	// {...register(
+																	// 	`${field.name}[${i}]`,
+																	// )}
 																	type={field.type}
-																	value={
-																		item.value
-																			? item.value
-																			: field.name
-																	}
-																	defaultChecked={item.isChecked}
+																	value={item.value}
+																	// defaultChecked={item.isChecked}
 																/>
 																{item.title}
 															</label>
