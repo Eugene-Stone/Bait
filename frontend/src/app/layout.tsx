@@ -7,7 +7,7 @@ import ReloadToTop from '@/utils/ReloadToTop';
 import { FRONTEND_URL, SITE_TITLE } from '@/constants';
 
 import '../styles/style.scss';
-import '../styles/dark.scss';
+// import '../styles/dark.scss';
 
 export const metadata: Metadata = {
 	metadataBase: new URL(FRONTEND_URL),
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 	description: 'Школа программирования БАЙТ. Обучаем Python, JavaScript и веб-разработке.',
 	keywords: ['школа программирования', 'Python', 'JavaScript', 'веб-разработка'],
 	icons: {
-		icon: '/img/favicon.png',
+		icon: '/images/favicon.png',
 	},
 	// alternates: {
 	// 	canonical: FRONTEND_URL,

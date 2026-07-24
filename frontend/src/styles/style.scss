@@ -1825,6 +1825,16 @@ strong {
 	}
 }
 
+.nw-courses-wrapper {
+	&.is-loading {
+		.nw-article-card {
+			opacity: 0;
+			transform: translateY(-20px);
+		}
+	}
+}
+
+
 .nw-article-img-wrapper {
 	position: relative;
 	width: 100%;

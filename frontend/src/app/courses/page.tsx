@@ -1,14 +1,13 @@
-import CoursesSidebar from '@/components/layout/Courses/CoursesSidebar';
-import Pagination from '@/components/layout/Courses/Pagination';
+import CourseOverlayProvider from '@/components/courses/CourseOverlayContext';
+import CourseList from '@/components/courses/CoursesList';
+import CoursesSidebar from '@/components/courses/CoursesSidebar';
+import Pagination from '@/components/courses/Pagination';
 import Preloader from '@/components/layout/Preloader';
 import { BACKEND_URL } from '@/constants';
 import { Meta } from '@/types';
 import { buildQuery } from '@/utils/buildQuery';
-import { imageSrcSet } from '@/utils/imageSrcSet';
 import { Course } from '@backend-types/course';
 import { Metadata } from 'next';
-import Image from 'next/image';
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 
@@ -116,7 +115,6 @@ export default async function Courses({
 }) {
 	const params = await searchParams;
 	const { dataPage, pageSize } = await getPageData(params);
-
 	const { data: courses, meta }: { data: Course[]; meta: Meta } = dataPage;
 
 	console.log('params', params);
@@ -129,89 +127,14 @@ export default async function Courses({
 				<div className="nw-blog-container">
 					<h2 className="nw-auth-title">Наши курсы</h2>
 
-					<div className="nw-blog-grid">
-						<CoursesSidebar />
+					<CourseOverlayProvider>
+						<div className="nw-blog-grid">
+							<CoursesSidebar />
 
-						<main className="nw-articles-grid">
-							{courses.map((course, i) => {
-								const imageFormats = course.image && imageSrcSet(course.image);
-								const srcSetString = imageFormats
-									?.map(
-										(format) => `${BACKEND_URL}${format.url} ${format.width}w`,
-									)
-									.join(', ');
-								return (
-									<article key={i} className="nw-article-card">
-										<Link
-											className="nw-article-img-wrapper"
-											href={`courses/${course.slug}`}>
-											<picture>
-												<source
-													srcSet={srcSetString}
-													sizes="
-													(min-width: 1200px) 420px,
-													(min-width: 992px) 33vw,
-													(min-width: 640px) 50vw,
-													100vw
-												"
-												/>
-												{course.image && (
-													<Image
-														className="nw-article-img"
-														alt={course.title ? course.title : ''}
-														width={course.image?.width}
-														height={course.image?.height}
-														src={BACKEND_URL + course.image?.url}
-													/>
-												)}
-											</picture>
-										</Link>
-										<div className="nw-article-content">
-											<div
-												className="nw-article-meta"
-												style={{ marginTop: 12 }}>
-												<span
-													style={{
-														color: '#000',
-														background: '#FFD700',
-														padding: '4px 8px',
-														fontWeight: 900,
-														fontSize: 16,
-													}}>
-													{course.price} грн
-												</span>
-												<span style={{ marginLeft: 12, fontSize: 13 }}>
-													• {course.duration} •{' '}
-													{course?.formats?.map((format, i) =>
-														i === 0 ? format.title : '/' + format.title,
-													)}
-												</span>
-											</div>
-
-											{course?.formats?.map((f, i) => f.title + `, `)}
-											<br />
-											{course.direction?.title}
-											<br />
-											{course.level?.title}
-
-											<h3 className="nw-article-card-title">
-												<Link href={`courses/${course.slug}`}>
-													{course.title}
-												</Link>
-											</h3>
-											<p className="nw-article-excerpt">
-												{course.description}
-											</p>
-											<a className="nw-article-more" href="/courses/course">
-												Подробнее о курсе
-											</a>
-										</div>
-									</article>
-								);
-							})}
-						</main>
-					</div>
-					<Pagination pageSize={pageSize} pagination={meta.pagination} />
+							<CourseList courses={courses} />
+						</div>
+						<Pagination pageSize={pageSize} pagination={meta.pagination} />
+					</CourseOverlayProvider>
 				</div>
 			</section>
 		</Suspense>

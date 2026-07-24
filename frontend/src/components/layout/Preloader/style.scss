@@ -1,14 +1,34 @@
 @use '../../../styles/variables' as *;
 
 .layout,
-.nw-profile-content {
+.nw-profile-content,
+.nw-articles-grid {
 	position: relative;
 }
+
+.nw-courses-wrapper {
+	&:not(.is-loading) {
+		.preloader {
+			display: none;
+		}
+	}
+}
+
 
 .page-wrap {
 	>.preloader {
 		position: relative;
 		height: calc(100vh - 80px);
+	}
+}
+
+.nw-articles-grid {
+	> .preloader {
+		z-index: 10;
+		width: calc(100% + 10px);
+		height: calc(100% + 10px);
+		background-color: $tr;
+		background-color: pink
 	}
 }
 

@@ -2,6 +2,7 @@
 
 import { Pagination as PaginationType } from '@/types';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useCourseOverlayContext } from './CourseOverlayContext';
 
 type Props = {
 	pagination: PaginationType;
@@ -12,6 +13,7 @@ export default function Pagination({ pagination, pageSize }: Props) {
 	const pathname = usePathname();
 	const router = useRouter();
 	const searchParams = useSearchParams();
+	const { startLoading } = useCourseOverlayContext();
 
 	const { page, pageCount, total } = pagination;
 
@@ -22,10 +24,21 @@ export default function Pagination({ pagination, pageSize }: Props) {
 
 		params.set('page', value);
 
+		// Включаем оверлей мгновенно
+		startLoading();
+
 		// Для пагинации replace
-		router.replace(`${pathname}?${params}`);
+		router.replace(`${pathname}?${params}`, {
+			scroll: false,
+		});
+
 		// Для фильтров push
 		// router.push(`${pathname}?${params}`);
+
+		// Анимация
+		// startTransition(() => {
+		// 	router.replace(`${pathname}?${params}`);
+		// });
 	}
 
 	function prevPage() {
