@@ -1,10 +1,10 @@
 {
   "kind": "collectionType",
-  "collectionName": "categories",
+  "collectionName": "levels",
   "info": {
-    "singularName": "category",
-    "pluralName": "categories",
-    "displayName": "Categories"
+    "singularName": "level",
+    "pluralName": "levels",
+    "displayName": "Levels"
   },
   "options": {
     "draftAndPublish": true
@@ -18,11 +18,11 @@
       "type": "uid",
       "targetField": "title"
     },
-    "course": {
+    "courses": {
       "type": "relation",
-      "relation": "manyToOne",
+      "relation": "oneToMany",
       "target": "api::course.course",
-      "inversedBy": "categories"
+      "mappedBy": "level"
     }
   }
 }

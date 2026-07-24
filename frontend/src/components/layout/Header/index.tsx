@@ -9,6 +9,7 @@ import { getHeaderData, getHeaderMenu } from '@/api/request';
 import Menu from './Menu';
 
 export default async function Header() {
+	console.log('Header render');
 	const { data }: { data: HeaderType } = await getHeaderData();
 	const { title, logo } = data;
 	const menuData: TreeNavigationItem[] = await getHeaderMenu();

@@ -39,3 +39,14 @@ export interface TreeNavigationItem extends BaseNavigationItem {
 export type StrapiNavigationResponse<T extends 'FLAT' | 'TREE'> = T extends 'TREE'
 	? TreeNavigationItem[]
 	: FlatNavigationItem[];
+
+export type Pagination = {
+	page: number;
+	pageCount: number;
+	pageSize: number;
+	total: number;
+};
+
+export type Meta = {
+	pagination: Pagination;
+};

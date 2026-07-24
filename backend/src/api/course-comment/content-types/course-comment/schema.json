@@ -21,12 +21,6 @@
       "type": "boolean",
       "default": false
     },
-    "course": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::course.course",
-      "inversedBy": "course_comments"
-    },
     "users_permissions_user": {
       "type": "relation",
       "relation": "manyToOne",

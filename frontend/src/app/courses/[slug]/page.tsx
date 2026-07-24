@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 export default function Course() {
 	return (
 		<section className="nw-blog-section">
@@ -74,9 +76,9 @@ export default function Course() {
 					</p>
 				</div>
 				<footer className="nw-post-footer">
-					<a className="nw-post-back-link" href="/blog" data-discover="true">
+					<Link className="nw-post-back-link" href="/courses" data-discover="true">
 						← Назад ко всем курсам
-					</a>
+					</Link>
 				</footer>
 			</article>
 		</section>

@@ -1,6 +1,6 @@
+import { Course } from './course';
 
-
-export interface Category {
+export interface Level {
   id?: number;
   documentId?: string;
   createdAt?: Date | string;
@@ -9,4 +9,5 @@ export interface Category {
   locale?: string | null;
   title?: string;
   slug?: string;
+  courses?: Course[] | null;
 };

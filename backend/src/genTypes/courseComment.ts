@@ -1,4 +1,3 @@
-import { Course } from './course';
 import { User } from './user';
 
 export interface CourseComment {
@@ -11,6 +10,5 @@ export interface CourseComment {
   title?: string;
   text?: string;
   isApproved?: boolean;
-  course?: Course | null;
   users_permissions_user?: User | null;
 };

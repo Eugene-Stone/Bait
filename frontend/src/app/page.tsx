@@ -2,8 +2,12 @@ import { getHomePageData } from '@/api/request';
 import DynamicSections from '@/components/sections/DynamicSections';
 
 import { BACKEND_URL, FRONTEND_URL, SITE_TITLE } from '@/constants';
+import HomeDetect from '@/utils/HomeDetect';
 import { LayoutSeo } from '@backend-types/layoutSeo';
+
+import { Suspense } from 'react';
 import { Metadata } from 'next';
+import Preloader from '@/components/layout/Preloader';
 
 export async function generateMetadata(): Promise<Metadata> {
 	const dataPage = await getHomePageData();
@@ -58,5 +62,15 @@ export default async function Home() {
 	const dataPage = await getHomePageData();
 	const { sections }: { sections: any[] } = dataPage.data;
 
-	return <>{sections && <DynamicSections sections={sections} />}</>;
+	return (
+		<>
+			<HomeDetect />
+			{/* {sections && <DynamicSections sections={sections} />} */}
+			{sections && (
+				<Suspense fallback={<Preloader />}>
+					<DynamicSections sections={sections} />
+				</Suspense>
+			)}
+		</>
+	);
 }

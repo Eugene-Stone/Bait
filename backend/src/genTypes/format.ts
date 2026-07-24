@@ -1,6 +1,6 @@
 
 
-export interface Category {
+export interface Format {
   id?: number;
   documentId?: string;
   createdAt?: Date | string;

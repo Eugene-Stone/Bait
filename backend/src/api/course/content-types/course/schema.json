@@ -14,6 +14,10 @@
     "title": {
       "type": "string"
     },
+    "slug": {
+      "type": "uid",
+      "targetField": "title"
+    },
     "description": {
       "type": "text"
     },
@@ -24,17 +28,45 @@
         "images"
       ]
     },
-    "categories": {
+    "text": {
+      "type": "customField",
+      "customField": "plugin::ckeditor5.CKEditor",
+      "options": {
+        "preset": "defaultHtml"
+      }
+    },
+    "price": {
+      "type": "integer"
+    },
+    "duration": {
+      "type": "string"
+    },
+    "direction": {
       "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::category.category",
-      "mappedBy": "course"
+      "relation": "manyToOne",
+      "target": "api::direction.direction",
+      "inversedBy": "courses"
     },
     "course_comments": {
       "type": "relation",
       "relation": "oneToMany",
-      "target": "api::course-comment.course-comment",
-      "mappedBy": "course"
+      "target": "api::course-comment.course-comment"
+    },
+    "level": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::level.level",
+      "inversedBy": "courses"
+    },
+    "formats": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::format.format"
+    },
+    "seo": {
+      "type": "component",
+      "component": "layout.seo",
+      "repeatable": false
     }
   }
 }

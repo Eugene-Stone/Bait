@@ -7,6 +7,7 @@ import ReloadToTop from '@/utils/ReloadToTop';
 import { FRONTEND_URL, SITE_TITLE } from '@/constants';
 
 import '../styles/style.scss';
+import '../styles/dark.scss';
 
 export const metadata: Metadata = {
 	metadataBase: new URL(FRONTEND_URL),
@@ -52,7 +53,7 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en">
+		<html lang="en" data-scroll-behavior="smooth">
 			<body>
 				<div className="wrapper">
 					{/* <ReloadToTop /> */}
@@ -60,7 +61,8 @@ export default function RootLayout({
 
 					<div className="layout">
 						<main className="page-wrap">
-							<ViewTransition>{children}</ViewTransition>
+							{children}
+							{/* <ViewTransition>{children}</ViewTransition> */}
 						</main>
 					</div>
 
