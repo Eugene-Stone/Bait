@@ -1,17 +1,20 @@
 'use client';
 
-type Props = {
-	filters: {
-		directions: Direction[];
-		levels: Level[];
-	};
-};
 import { BACKEND_URL } from '@/constants';
 import { useLoadingContext } from '@/context/LoadingContext';
+import { Course } from '@backend-types/course';
 import { Direction } from '@backend-types/direction';
 import { Level } from '@backend-types/level';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
+
+type Props = {
+	filters: {
+		directions: Direction[];
+		levels: Level[];
+		allCourses: Course[];
+	};
+};
 
 const sortList = [
 	{
@@ -38,7 +41,7 @@ export default function CoursesSidebar({ filters }: Props) {
 	const searchParams = useSearchParams();
 	const { startLoading } = useLoadingContext();
 
-	const { directions, levels } = filters;
+	const { directions, levels, allCourses = [] } = filters;
 
 	// Инициализация состояний из URL
 	const [search, setSearch] = useState(searchParams.get('search') || '');
@@ -87,6 +90,51 @@ export default function CoursesSidebar({ filters }: Props) {
 		updateQueryParams({ search: search.trim() || null });
 	};
 
+	// 1. Фильтруем курсы по поисковому запросу (если есть)
+	const searchFilteredCourses = allCourses.filter((course) => {
+		if (!search) return true;
+		return course.title?.toLowerCase().includes(search.toLowerCase());
+	});
+
+	// 2. Функция подсчета доступных курсов для направления (с учетом выбранных levels)
+	const getDirectionCount = (directionSlug: string) => {
+		return searchFilteredCourses.filter((course) => {
+			const matchesDirection = course.direction?.slug === directionSlug;
+			const matchesLevel =
+				levelsActive.length === 0 ||
+				(course.level?.slug && levelsActive.includes(course.level.slug));
+
+			return matchesDirection && matchesLevel;
+		}).length;
+	};
+
+	// 3. Функция подсчета доступных курсов для уровня (с учетом выбранных directions)
+	const getLevelCount = (levelSlug: string) => {
+		return searchFilteredCourses.filter((course) => {
+			const matchesLevel = course.level?.slug === levelSlug;
+			const matchesDirection =
+				directionsActive.length === 0 ||
+				(course.direction?.slug && directionsActive.includes(course.direction.slug));
+
+			return matchesLevel && matchesDirection;
+		}).length;
+	};
+
+	// Проверяем, активен ли хотя бы один фильтр (поиск, направления, уровень или нестиндартная сортировка)
+	const hasActiveFilters =
+		Boolean(searchParams.get('search')) ||
+		directionsActive.length > 0 ||
+		levelsActive.length > 0 ||
+		Boolean(searchParams.get('sort'));
+
+	// Функция полного сброса
+	const handleResetFilters = () => {
+		setSearch('');
+		startLoading();
+		// Переходим на чистый URL без query-параметров
+		router.push(pathname, { scroll: false });
+	};
+
 	return (
 		<aside className="nw-blog-sidebar">
 			<div className="nw-widget">
@@ -126,7 +174,11 @@ export default function CoursesSidebar({ filters }: Props) {
 				{directions && (
 					<ul className="nw-filter-list">
 						{directions.map((filter, i) => {
-							if (!filter.slug || filter.courses?.length === 0) return null;
+							if (!filter.slug) return null;
+							const count = getDirectionCount(filter.slug);
+
+							// Если с текущими фильтрами курсов 0 — можно не рендерить или дизейблить
+							// if (count === 0 && !directionsActive.includes(filter.slug)) return null;
 
 							return (
 								<li key={i}>
@@ -136,6 +188,10 @@ export default function CoursesSidebar({ filters }: Props) {
 											type="checkbox"
 											value={filter.slug}
 											checked={directionsActive.includes(filter.slug!)}
+											disabled={
+												count === 0 &&
+												!directionsActive.includes(filter.slug)
+											}
 											onChange={(e) =>
 												handleCheckboxChange(
 													'direction',
@@ -145,7 +201,7 @@ export default function CoursesSidebar({ filters }: Props) {
 											}
 										/>
 										<span>
-											{filter.title} ({filter.courses?.length})
+											{filter.title} ({count})
 										</span>
 									</label>
 								</li>
@@ -160,7 +216,11 @@ export default function CoursesSidebar({ filters }: Props) {
 				{levels && (
 					<ul className="nw-filter-list">
 						{levels.map((filter, i) => {
-							if (!filter.slug || filter.courses?.length === 0) return null;
+							if (!filter.slug) return null;
+							const count = getLevelCount(filter.slug);
+
+							// Если с текущими фильтрами курсов 0 — можно не рендерить или дизейблить
+							// if (count === 0 && !levelsActive.includes(filter.slug)) return null;
 
 							return (
 								<li key={i}>
@@ -170,6 +230,10 @@ export default function CoursesSidebar({ filters }: Props) {
 											type="checkbox"
 											value={filter.slug}
 											checked={levelsActive.includes(filter.slug!)}
+											disabled={
+												count === 0 &&
+												!directionsActive.includes(filter.slug)
+											}
 											onChange={(e) =>
 												handleCheckboxChange(
 													'level',
@@ -179,7 +243,7 @@ export default function CoursesSidebar({ filters }: Props) {
 											}
 										/>
 										<span>
-											{filter.title} ({filter.courses?.length})
+											{filter.title} ({count})
 										</span>
 									</label>
 								</li>
@@ -188,6 +252,17 @@ export default function CoursesSidebar({ filters }: Props) {
 					</ul>
 				)}
 			</div>
+
+			{hasActiveFilters && (
+				<div className="nw-widget">
+					<button
+						type="button"
+						className="btn nw-reset-button"
+						onClick={handleResetFilters}>
+						Сбросить все фильтры
+					</button>
+				</div>
+			)}
 		</aside>
 	);
 }

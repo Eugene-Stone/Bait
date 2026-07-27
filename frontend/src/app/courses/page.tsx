@@ -94,6 +94,7 @@ async function getPageData(params: {
 	// return response.json(),
 
 	const dataPage = await response.json();
+	console.log(dataPage.data);
 
 	return {
 		dataPage,
@@ -103,23 +104,31 @@ async function getPageData(params: {
 
 async function getFiltersData() {
 	const headers = { 'Content-Type': 'application/json' };
-	const [directionsRes, levelsRes] = await Promise.all([
+	const [directionsRes, levelsRes, allCoursesRes] = await Promise.all([
 		fetch(`${BACKEND_URL}/api/directions?populate=*`, { headers }),
 		fetch(`${BACKEND_URL}/api/levels?populate=*`, { headers }),
+
+		// Запрашиваем все курсы (без пагинации) только с нужными полями для подсчета
+		fetch(
+			`${BACKEND_URL}/api/courses?populate[direction][fields][0]=slug&populate[level][fields][0]=slug&pagination[limit]=1000`,
+			{ headers },
+		),
 	]);
 
-	if (!directionsRes.ok || !levelsRes.ok) {
+	if (!directionsRes.ok || !levelsRes.ok || !allCoursesRes.ok) {
 		throw new Error('Failed to get filters');
 	}
 
-	const [directionsData, levelsData] = await Promise.all([
+	const [directionsData, levelsData, allCoursesData] = await Promise.all([
 		directionsRes.json(),
 		levelsRes.json(),
+		allCoursesRes.json(),
 	]);
 
 	return {
 		directions: directionsData.data,
 		levels: levelsData.data,
+		allCourses: allCoursesData.data,
 	};
 }
 
@@ -136,7 +145,7 @@ export default async function Courses({
 }) {
 	const params = await searchParams;
 	const { dataPage, pageSize } = await getPageData(params);
-	const { directions, levels } = await getFiltersData();
+	const { directions, levels, allCourses } = await getFiltersData();
 	const { data: courses, meta }: { data: Course[]; meta: Meta } = dataPage;
 
 	// console.log('params', params);
@@ -150,7 +159,7 @@ export default async function Courses({
 					<h2 className="nw-auth-title">Наши курсы</h2>
 
 					<div className="nw-blog-grid">
-						<CoursesSidebar filters={{ directions, levels }} />
+						<CoursesSidebar filters={{ directions, levels, allCourses }} />
 
 						<CourseList courses={courses} />
 					</div>

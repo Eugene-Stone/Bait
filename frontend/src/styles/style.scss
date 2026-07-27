@@ -1757,6 +1757,13 @@ body.is-dark {
 	gap: 30px;
 }
 
+.nw-reset-button {
+	padding-left: 10px;
+	padding-right: 10px;
+	font-size: 80%;
+	width: 100%;
+}
+
 .nw-widget {
 	background-color: $nb-white;
 	padding: 24px;
@@ -1827,6 +1834,10 @@ body.is-dark {
 	font-weight: 700;
 	cursor: pointer;
 	font-family: $font-mono;
+	&:has(input:disabled) {
+		color: #ccc;
+		cursor: default;
+	}
 }
 
 .nw-filter-checkbox {
