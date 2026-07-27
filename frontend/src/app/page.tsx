@@ -67,9 +67,9 @@ export default async function Home() {
 			<HomeDetect />
 			{/* {sections && <DynamicSections sections={sections} />} */}
 			{sections && (
-				<Suspense fallback={<Preloader />}>
-					<DynamicSections sections={sections} />
-				</Suspense>
+				// <Suspense fallback={<Preloader />}>
+				<DynamicSections sections={sections} />
+				// </Suspense>
 			)}
 		</>
 	);

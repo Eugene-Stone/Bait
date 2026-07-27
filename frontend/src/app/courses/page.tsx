@@ -127,14 +127,12 @@ export default async function Courses({
 				<div className="nw-blog-container">
 					<h2 className="nw-auth-title">Наши курсы</h2>
 
-					<CourseOverlayProvider>
-						<div className="nw-blog-grid">
-							<CoursesSidebar />
+					<div className="nw-blog-grid">
+						<CoursesSidebar />
 
-							<CourseList courses={courses} />
-						</div>
-						<Pagination pageSize={pageSize} pagination={meta.pagination} />
-					</CourseOverlayProvider>
+						<CourseList courses={courses} />
+					</div>
+					<Pagination pageSize={pageSize} pagination={meta.pagination} />
 				</div>
 			</section>
 		</Suspense>

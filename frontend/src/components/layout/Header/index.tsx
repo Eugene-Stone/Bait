@@ -7,6 +7,7 @@ import { TreeNavigationItem } from '@/types';
 import Image from 'next/image';
 import { getHeaderData, getHeaderMenu } from '@/api/request';
 import Menu from './Menu';
+import ThemeToggleButton from './ThemeToggleButton';
 
 export default async function Header() {
 	console.log('Header render');
@@ -72,6 +73,8 @@ export default async function Header() {
 									</svg> */}
 								</Link>
 							</div>
+
+							<ThemeToggleButton />
 						</ToggleMenu>
 					</div>
 				</div>

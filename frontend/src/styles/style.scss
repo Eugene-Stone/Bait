@@ -556,6 +556,49 @@ strong {
 	}
 }
 
+.theme-toggle-button {
+	appearance: none;
+	border: none;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+	transition: 0.15s;
+	&:active {
+		transform: scale(1.05);
+		opacity: 0.75;
+	}
+	svg {
+		width: 30px;
+		height: 30px;
+		object-fit: contain;
+		// transition: 0.25s;
+	}
+
+	.moon-icon {
+		// display: none;
+		visibility: hidden;
+		position: absolute;
+		z-index: 2;
+	}
+}
+
+body {
+	&.is-dark {
+		.theme-toggle-button {
+			.moon-icon {
+				// display: block;
+				visibility: visible;
+			}
+			.sun-icon {
+				// display: none;
+				visibility: hidden;
+			}
+		}
+	}
+}
+
 // Navigation
 .mnu-wrap {
 	.main-mnu {
@@ -646,6 +689,12 @@ strong {
 	}
 }
 
+@media (max-width: 991.98px) {
+	.theme-toggle-button {
+		order: -1;
+		margin-right: -5px;
+	}
+}
 @media (min-width: 992px) and (max-width: 1199px) {
 	.login-link {
 		margin-right: -10px;
@@ -1825,14 +1874,14 @@ strong {
 	}
 }
 
-.nw-courses-wrapper {
-	&.is-loading {
-		.nw-article-card {
-			opacity: 0;
-			transform: translateY(-20px);
-		}
+.layout.is-loading,
+.nw-courses-wrapper.is-loading {
+	.nw-article-card {
+		opacity: 0;
+		transform: translateY(-20px);
 	}
 }
+
 
 
 .nw-article-img-wrapper {

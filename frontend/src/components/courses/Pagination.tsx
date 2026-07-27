@@ -2,7 +2,8 @@
 
 import { Pagination as PaginationType } from '@/types';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useCourseOverlayContext } from './CourseOverlayContext';
+// import { useCourseOverlayContext } from './CourseOverlayContext';
+import { useLoadingContext } from '@/context/LoadingContext';
 
 type Props = {
 	pagination: PaginationType;
@@ -13,7 +14,7 @@ export default function Pagination({ pagination, pageSize }: Props) {
 	const pathname = usePathname();
 	const router = useRouter();
 	const searchParams = useSearchParams();
-	const { startLoading } = useCourseOverlayContext();
+	const { startLoading } = useLoadingContext();
 
 	const { page, pageCount, total } = pagination;
 
