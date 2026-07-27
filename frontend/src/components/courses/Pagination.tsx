@@ -18,7 +18,7 @@ export default function Pagination({ pagination, pageSize }: Props) {
 
 	const { page, pageCount, total } = pagination;
 
-	console.log(pathname);
+	// console.log(pathname);
 
 	function reloadParamsPagination(value: string) {
 		const params = new URLSearchParams(searchParams);

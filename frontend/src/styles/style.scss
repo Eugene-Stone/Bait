@@ -584,17 +584,16 @@ strong {
 	}
 }
 
-body {
-	&.is-dark {
-		.theme-toggle-button {
-			.moon-icon {
-				// display: block;
-				visibility: visible;
-			}
-			.sun-icon {
-				// display: none;
-				visibility: hidden;
-			}
+html.is-dark,
+body.is-dark {
+	.theme-toggle-button {
+		.moon-icon {
+			// display: block;
+			visibility: visible;
+		}
+		.sun-icon {
+			// display: none;
+			visibility: hidden;
 		}
 	}
 }

@@ -1,4 +1,3 @@
-import CourseOverlayProvider from '@/components/courses/CourseOverlayContext';
 import CourseList from '@/components/courses/CoursesList';
 import CoursesSidebar from '@/components/courses/CoursesSidebar';
 import Pagination from '@/components/courses/Pagination';
@@ -102,6 +101,28 @@ async function getPageData(params: {
 	};
 }
 
+async function getFiltersData() {
+	const headers = { 'Content-Type': 'application/json' };
+	const [directionsRes, levelsRes] = await Promise.all([
+		fetch(`${BACKEND_URL}/api/directions?populate=*`, { headers }),
+		fetch(`${BACKEND_URL}/api/levels?populate=*`, { headers }),
+	]);
+
+	if (!directionsRes.ok || !levelsRes.ok) {
+		throw new Error('Failed to get filters');
+	}
+
+	const [directionsData, levelsData] = await Promise.all([
+		directionsRes.json(),
+		levelsRes.json(),
+	]);
+
+	return {
+		directions: directionsData.data,
+		levels: levelsData.data,
+	};
+}
+
 export default async function Courses({
 	searchParams,
 }: {
@@ -115,9 +136,10 @@ export default async function Courses({
 }) {
 	const params = await searchParams;
 	const { dataPage, pageSize } = await getPageData(params);
+	const { directions, levels } = await getFiltersData();
 	const { data: courses, meta }: { data: Course[]; meta: Meta } = dataPage;
 
-	console.log('params', params);
+	// console.log('params', params);
 	// console.log(courses);
 	// console.log(meta.pagination);
 
@@ -128,7 +150,7 @@ export default async function Courses({
 					<h2 className="nw-auth-title">Наши курсы</h2>
 
 					<div className="nw-blog-grid">
-						<CoursesSidebar />
+						<CoursesSidebar filters={{ directions, levels }} />
 
 						<CourseList courses={courses} />
 					</div>
