@@ -1,11 +1,20 @@
+import { getMe } from '@/api/auth-server';
+import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { ViewTransition } from 'react';
+import LogoutButton from '@/components/profile/LogoutButton';
+// import { logout } from '@/api/auth-client';
 
-export default function RootLayout({
+export default async function RootLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
+	const user = await getMe();
+	if (!user) {
+		redirect('/login');
+	}
+
 	return (
 		<section className="nw-profile-section">
 			<div className="nw-profile-container">
@@ -39,7 +48,7 @@ export default function RootLayout({
 								</Link>
 							</li>
 							<li className="nw-profile-menu-item">
-								<button className="nw-profile-menu-link">Выйти</button>
+								<LogoutButton />
 							</li>
 						</ul>
 					</aside>

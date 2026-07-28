@@ -13,10 +13,12 @@ const eslintConfig = defineConfig([
 		"build/**",
 		"next-env.d.ts",
 	]),
-	{'@next/next/no-img-element': 'off',
-			rules: {
+	{
+		rules: {
+			// Предупреждение о типе при импорте
+			// "@typescript-eslint/consistent-type-imports": "error",
 			// Предупреждение о типе изображения
-			'@next/next/no-img-element': 'off',
+			"@next/next/no-img-element": "off",
 			"no-unused-vars": "off",
 			"@typescript-eslint/no-unused-vars": "off",
 			"prefer-const": "off",

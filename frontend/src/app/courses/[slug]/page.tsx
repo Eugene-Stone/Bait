@@ -1,11 +1,11 @@
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 // import { getPageBySlug } from '@/api/APIs';
-import { LayoutSeo } from '@backend-types/layoutSeo';
+import type { LayoutSeo } from '@backend-types/layoutSeo';
 import { BACKEND_URL, SITE_TITLE } from '@/constants';
 import DynamicSections from '@/components/sections/DynamicSections';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { Course } from '@backend-types/course';
+import type { Course } from '@backend-types/course';
 import RichText from '@/utils/RichText';
 import { imageSrcSet } from '@/utils/imageSrcSet';
 import Image from 'next/image';
@@ -150,7 +150,7 @@ export default async function PageBySlug({ params }: { params: Promise<{ slug: s
 			<article className="nw-post-container">
 				<header className="nw-post-header">
 					<div className="nw-post-meta">
-						Опубликовано: {formatDate(page?.createdAt!)} • {page.direction?.title}
+						Опубликовано: {formatDate(page.createdAt!)} • {page.direction?.title}
 					</div>
 					<h1 className="nw-post-title">{title}</h1>
 				</header>

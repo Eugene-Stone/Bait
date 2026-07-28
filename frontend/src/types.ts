@@ -4,6 +4,7 @@ export interface NavigationRelated {
 	id: number;
 	contentType: string;
 	collectionName: string;
+	// eslint-disable-next-line
 	[key: string]: any; // Allows custom fields from your tied content types
 }
 

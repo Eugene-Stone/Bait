@@ -1644,11 +1644,15 @@ body.is-dark {
 .success-field {
 	color: $nb-green !important;
 	font-weight: 900;
+	margin-top: 10px;
+	text-align: center;
 }
 
 .error-field {
 	color: $nb-red !important;
 	font-weight: 900;
+	margin-top: 10px;
+	text-align: center;
 }
 
 // Password Change
