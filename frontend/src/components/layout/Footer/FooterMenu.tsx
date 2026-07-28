@@ -1,5 +1,5 @@
 'use client';
-import { getFooterMenu } from '@/api/request';
+import { getFooterMenu } from '@/api/APIs';
 import { TreeNavigationItem } from '@/types';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';

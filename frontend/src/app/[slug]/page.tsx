@@ -1,8 +1,9 @@
 import { Metadata } from 'next';
-import { getPageBySlug } from '@/api/request';
+import { getPageBySlug } from '@/api/APIs';
 import { LayoutSeo } from '@backend-types/layoutSeo';
 import { BACKEND_URL, SITE_TITLE } from '@/constants';
 import DynamicSections from '@/components/sections/DynamicSections';
+import { notFound } from 'next/navigation';
 
 export async function generateMetadata({
 	params,
@@ -13,7 +14,7 @@ export async function generateMetadata({
 	const dataPage = await getPageBySlug(slug);
 
 	const pageTitle = dataPage.data[0].title;
-	const seo: LayoutSeo = dataPage?.data[0]?.seo;
+	const seo: LayoutSeo = dataPage?.data[0]?.seo || {};
 
 	const {
 		canonical,
@@ -62,7 +63,13 @@ export default async function PageBySlug({ params }: { params: Promise<{ slug: s
 	const { slug } = await params;
 
 	const dataPage = await getPageBySlug(slug);
-	const { sections }: { sections: any[] } = dataPage.data[0];
+	const page = dataPage.data?.[0];
+
+	if (!page) {
+		notFound();
+	}
+
+	const { sections } = page;
 
 	return (
 		<>

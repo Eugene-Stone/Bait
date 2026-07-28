@@ -1,15 +1,23 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
-import { ViewTransition } from 'react';
 import ButtonScrollTop from '@/components/layout/ButtonScrollTop';
 import ReloadToTop from '@/utils/ReloadToTop';
 import { FRONTEND_URL, SITE_TITLE } from '@/constants';
 
-import '../styles/style.scss';
 import LoadingContextProvider from '@/context/LoadingContext';
 import ThemeContextProvider from '@/context/ThemeContext';
+import '../styles/style.scss';
 import '../styles/dark.scss';
+
+export const viewport: Viewport = {
+	themeColor: [
+		{ media: '(prefers-color-scheme: light)', color: '#ffffff' },
+		{ media: '(prefers-color-scheme: dark)', color: '#000000' },
+	],
+	width: 'device-width',
+	initialScale: 1,
+};
 
 export const metadata: Metadata = {
 	metadataBase: new URL(FRONTEND_URL),
@@ -49,6 +57,18 @@ export const metadata: Metadata = {
 	},
 };
 
+const themeInitializerScript = `
+   (function() {
+      try {
+         var stored = localStorage.getItem('isDark');
+         var isDark = stored ? JSON.parse(stored) : false;
+         var root = document.documentElement;
+         root.classList.add(isDark ? 'is-dark' : 'is-light');
+         root.classList.remove(isDark ? 'is-light' : 'is-dark');
+      } catch (e) {}
+   })();
+`;
+
 export default function RootLayout({
 	children,
 }: Readonly<{
@@ -56,26 +76,12 @@ export default function RootLayout({
 }>) {
 	return (
 		// suppressHydrationWarning - позволяет атрибутам элемента <html> изменяться внешними скриптами (до гидратации) и их не нужно сверять.
-		<html lang="en" data-scroll-behavior="smooth" suppressHydrationWarning>
+		<html lang="ru" data-scroll-behavior="smooth" suppressHydrationWarning>
 			<head>
 				<script
+					suppressHydrationWarning
 					dangerouslySetInnerHTML={{
-						__html: `
-                     (function() {
-                        try {
-                           var stored = localStorage.getItem('isDark');
-                           var isDark = stored ? JSON.parse(stored) : false;
-                           var root = document.documentElement;
-                           if (isDark) {
-                              root.classList.add('is-dark');
-                              root.classList.remove('is-light');
-                           } else {
-                              root.classList.add('is-light');
-                              root.classList.remove('is-dark');
-                           }
-                        } catch (e) {}
-                     })();
-                  `,
+						__html: themeInitializerScript,
 					}}
 				/>
 			</head>

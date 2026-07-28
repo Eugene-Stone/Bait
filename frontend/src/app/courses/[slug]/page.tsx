@@ -1,82 +1,192 @@
+import { Metadata } from 'next';
+// import { getPageBySlug } from '@/api/APIs';
+import { LayoutSeo } from '@backend-types/layoutSeo';
+import { BACKEND_URL, SITE_TITLE } from '@/constants';
+import DynamicSections from '@/components/sections/DynamicSections';
+import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import { Course } from '@backend-types/course';
+import RichText from '@/utils/RichText';
+import { imageSrcSet } from '@/utils/imageSrcSet';
+import Image from 'next/image';
+import { buildQuery } from '@/utils/buildQuery';
+import { formatDate } from '@/utils/formatDate';
 
-export default function Course() {
+export async function getPageBySlug(slug: string) {
+	const query = buildQuery({
+		populate: {
+			seo: {
+				populate: {
+					ogImage: true,
+				},
+			},
+			image: {
+				populate: '*',
+			},
+			direction: true,
+			level: true,
+			formats: true,
+		},
+	});
+
+	const response = await fetch(
+		// `${BACKEND_URL}/api/courses?filters[slug][$eq]=${slug}&populate[seo][populate][ogImage]=true&populate[image]=true`,
+		`${BACKEND_URL}/api/courses?filters[slug][$eq]=${slug}&${query}`,
+		{
+			cache: 'no-store', // Отключение кеша
+			// next: { revalidate: 60 },
+		},
+	);
+
+	// console.log(query);
+
+	if (!response.ok) {
+		throw new Error('Failed to fetch home page data');
+	}
+
+	const result = await response.json();
+
+	// Если бэкенд вернул пустой массив — вызываем 404
+	if (!result.data || result.data.length === 0) {
+		notFound();
+	}
+
+	return result;
+}
+
+export async function generateMetadata({
+	params,
+}: {
+	params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+	const { slug } = await params;
+	const dataPage = await getPageBySlug(slug);
+
+	const page = dataPage.data?.[0];
+
+	if (!page) {
+		notFound();
+	}
+
+	const pageTitle = dataPage.data[0].title;
+	const seo: LayoutSeo = dataPage?.data[0]?.seo || {};
+
+	const {
+		canonical,
+		metaDescription,
+		metaKeywords,
+		metaTitle,
+		nofollow,
+		noindex,
+		ogDescription,
+		ogTitle,
+		structuredData,
+		ogImage,
+	} = seo;
+
+	const ogImageUrl = ogImage?.url ? `${BACKEND_URL}${ogImage.url}` : '/images/logo.png';
+
+	return {
+		title: metaTitle || pageTitle,
+		description: metaDescription,
+		keywords: metaKeywords,
+		alternates: {
+			canonical: canonical || slug,
+		},
+		robots: {
+			index: !noindex,
+			follow: !nofollow,
+		},
+		openGraph: {
+			title: ogTitle || metaTitle || pageTitle,
+			siteName: SITE_TITLE,
+			type: 'website',
+			locale: 'ru_RU',
+			description: ogDescription || metaDescription,
+			images: [
+				{
+					url: ogImageUrl,
+					width: ogImage?.width || 1000,
+					height: ogImage?.height || 500,
+				},
+			],
+		},
+	};
+}
+
+export default async function PageBySlug({ params }: { params: Promise<{ slug: string }> }) {
+	const { slug } = await params;
+
+	const dataPage = await getPageBySlug(slug);
+	const page: Course = dataPage.data?.[0];
+
+	if (!page) {
+		notFound();
+	}
+
+	// const { sections } = page;
+	// console.log(page);
+
+	const { title, image, text } = page;
+	// console.log(page);
+
+	const imageFormats = page.image && imageSrcSet(page.image);
+	const srcSetString = imageFormats
+		?.map((format) => `${BACKEND_URL}${format.url} ${format.width}w`)
+		.join(', ');
+
+	// const date = new Date(page?.createdAt || '');
+	// // 2. Форматируем с помощью Intl
+	// const formatter = new Intl.DateTimeFormat('ru-RU', {
+	// 	day: 'numeric',
+	// 	month: 'long',
+	// 	year: 'numeric',
+	// });
+
+	// const formattedDate = formatter.format(date);
+
 	return (
 		<section className="nw-blog-section">
 			<article className="nw-post-container">
 				<header className="nw-post-header">
-					<div className="nw-post-meta">Опубликовано: 10 июля 2026 г. • Python</div>
-					<h1 className="nw-post-title">
-						Python с нуля: что учить, где практиковаться и как не бросить
-					</h1>
+					<div className="nw-post-meta">
+						Опубликовано: {formatDate(page?.createdAt!)} • {page.direction?.title}
+					</div>
+					<h1 className="nw-post-title">{title}</h1>
 				</header>
 				<div className="nw-post-main-img-wrapper">
-					<picture>
-						<img
-							className="nw-post-main-img"
-							alt="Python с нуля: дорожная карта обучения для начинающих"
-							src="https://nordwood.onrender.com/uploads/photo_1540555700478_4be289fbecef_1f639e7896.avif"
-						/>
-					</picture>
+					{page.image && (
+						<picture>
+							<source
+								srcSet={srcSetString}
+								sizes="
+							(min-width: 768px) 718px,
+							100vw
+						"
+							/>
+							<Image
+								className="nw-post-main-img"
+								width={image?.width}
+								height={image?.height}
+								alt={image?.alternativeText || ''}
+								src={BACKEND_URL + image?.url}
+							/>
+						</picture>
+					)}
 				</div>
-				<div className="nw-post-body">
-					<p>
-						Python — один из самых популярных языков программирования в мире. С него
-						начинают путь в IT тысячи новичков, и не случайно: чистый синтаксис,
-						огромное сообщество и широчайший спектр применения — от веб-разработки до
-						анализа данных и машинного обучения. В этой статье разберем, как выстроить
-						обучение, чтобы не закопаться в теории и быстрее дойти до первых реальных
-						проектов.
-					</p>
-					<h3>Основы: переменные, типы данных, циклы и функции</h3>
-					<p>
-						Первый этап — фундамент, без которого дальше двигаться бессмысленно. Освой
-						работу с числами, строками, списками и словарями. Напиши десяток простых
-						программ: калькулятор, конвертер валют, генератор паролей. Важно не просто
-						прочитать про циклы for и while, а реально порешать задачи — на LeetCode,
-						Codewars или в тренажере школы БАЙТ. Только практика превращает синтаксис в
-						навык.
-					</p>
-					<blockquote>
-						<p>
-							«Лучший способ выучить Python — писать код каждый день. Даже 30 минут
-							практики в день дают больше, чем три часа теории раз в неделю. Код либо
-							работает, либо нет — и это лучшая обратная связь.»
-						</p>
-					</blockquote>
-					<h3>Продвинутый уровень: ООП, библиотеки и работа с API</h3>
-					<p>
-						Когда базовый синтаксис освоен, переходи к объектно-ориентированному
-						программированию. Классы, наследование, инкапсуляция — эти концепции откроют
-						дорогу к серьезным фреймворкам вроде Django и FastAPI. Параллельно изучай
-						работу с внешними API: напиши бота для Telegram, парсер новостей или сервис
-						погоды. Такие проекты отлично смотрятся в портфолио и показывают
-						работодателю, что ты умеешь решать реальные задачи, а не только упражнения
-						из учебника.
-					</p>
-					<p>
-						Курс «Python с нуля до Junior» в школе БАЙТ построен именно по такому
-						принципу: от первой строчки кода до готового веб-приложения. Студенты пишут
-						6 проектов, проходят code-review от менторов и выходят с портфолио, которое
-						не стыдно приложить к резюме.
-					</p>
-				</div>
+
+				<RichText className="nw-post-body">{text}</RichText>
+
 				<h3 className="nw-comments-title">Обсуждение курса</h3>
 				<div className="reviews__leave-notice">
 					<p>
 						Чтобы задать вопрос или оставить комментарий,{' '}
-						<a href="/login" data-discover="true">
-							авторизируйтесь
-						</a>{' '}
-						или{' '}
-						<a href="/registration" data-discover="true">
-							зарегистрируйтесь
-						</a>{' '}
-						на&nbsp;сайте.
+						<Link href="/login">авторизируйтесь</Link> или{' '}
+						<Link href="/registration">зарегистрируйтесь</Link> на&nbsp;сайте.
 					</p>
 				</div>
 				<footer className="nw-post-footer">
-					<Link className="nw-post-back-link" href="/courses" data-discover="true">
+					<Link className="nw-post-back-link" href="/courses">
 						← Назад ко всем курсам
 					</Link>
 				</footer>

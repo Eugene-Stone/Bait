@@ -1,3 +1,4 @@
+import { getFiltersData } from '@/api/APIs';
 import CourseList from '@/components/courses/CoursesList';
 import CoursesSidebar from '@/components/courses/CoursesSidebar';
 import Pagination from '@/components/courses/Pagination';
@@ -50,6 +51,17 @@ async function getPageData(params: {
 
 	const queryPage = buildQuery({
 		filters: {
+			// Поиск
+			// title: {
+			// 	$containsi: searchQuery,
+			// },
+
+			// Поиск
+			...(searchQuery && {
+				title: {
+					$containsi: searchQuery,
+				},
+			}),
 			// Фильтра
 			direction: {
 				slug: {
@@ -62,10 +74,6 @@ async function getPageData(params: {
 					// Множество фильтров в массиве
 					$in: filtersLevelActive,
 				},
-			},
-			// Поиск
-			title: {
-				$containsi: searchQuery,
 			},
 		},
 		// Сортировка
@@ -94,41 +102,11 @@ async function getPageData(params: {
 	// return response.json(),
 
 	const dataPage = await response.json();
-	console.log(dataPage.data);
+	// console.log(dataPage.data);
 
 	return {
 		dataPage,
 		pageSize,
-	};
-}
-
-async function getFiltersData() {
-	const headers = { 'Content-Type': 'application/json' };
-	const [directionsRes, levelsRes, allCoursesRes] = await Promise.all([
-		fetch(`${BACKEND_URL}/api/directions?populate=*`, { headers }),
-		fetch(`${BACKEND_URL}/api/levels?populate=*`, { headers }),
-
-		// Запрашиваем все курсы (без пагинации) только с нужными полями для подсчета
-		fetch(
-			`${BACKEND_URL}/api/courses?populate[direction][fields][0]=slug&populate[level][fields][0]=slug&pagination[limit]=1000`,
-			{ headers },
-		),
-	]);
-
-	if (!directionsRes.ok || !levelsRes.ok || !allCoursesRes.ok) {
-		throw new Error('Failed to get filters');
-	}
-
-	const [directionsData, levelsData, allCoursesData] = await Promise.all([
-		directionsRes.json(),
-		levelsRes.json(),
-		allCoursesRes.json(),
-	]);
-
-	return {
-		directions: directionsData.data,
-		levels: levelsData.data,
-		allCourses: allCoursesData.data,
 	};
 }
 
@@ -139,8 +117,8 @@ export default async function Courses({
 		search?: string;
 		sort?: string;
 		page?: string;
-		direction?: string;
-		level?: string;
+		direction?: string | string[];
+		level?: string | string[];
 	}>;
 }) {
 	const params = await searchParams;
@@ -153,19 +131,19 @@ export default async function Courses({
 	// console.log(meta.pagination);
 
 	return (
-		<Suspense fallback={<Preloader />}>
-			<section className="nw-blog-section">
-				<div className="nw-blog-container">
-					<h2 className="nw-auth-title">Наши курсы</h2>
+		// <Suspense fallback={<Preloader />}>
+		<section className="nw-blog-section">
+			<div className="nw-blog-container">
+				<h2 className="nw-auth-title">Наши курсы</h2>
 
-					<div className="nw-blog-grid">
-						<CoursesSidebar filters={{ directions, levels, allCourses }} />
+				<div className="nw-blog-grid">
+					<CoursesSidebar filters={{ directions, levels, allCourses }} />
 
-						<CourseList courses={courses} />
-					</div>
-					<Pagination pageSize={pageSize} pagination={meta.pagination} />
+					<CourseList courses={courses} />
 				</div>
-			</section>
-		</Suspense>
+				<Pagination pageSize={pageSize} pagination={meta.pagination} />
+			</div>
+		</section>
+		// </Suspense>
 	);
 }

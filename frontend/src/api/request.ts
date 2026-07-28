@@ -1,141 +1,44 @@
-import { notFound } from 'next/navigation';
 import { BACKEND_URL } from '@/constants';
-import { buildQuery } from '@/utils/buildQuery';
 
-const queryPage = buildQuery({
-	populate: {
-		seo: {
-			populate: {
-				ogImage: true,
-			},
-		},
-		sections: {
-			on: {
-				'sections.about': { populate: '*' },
-				'sections.gallery': {
-					populate: {
-						gallery: {
-							populate: {
-								images: true,
-							},
-						},
-					},
-				},
-				'sections.hero': { populate: '*' },
-				'sections.request': {
-					populate: {
-						form: {
-							populate: {
-								fields: {
-									on: {
-										'forms.form-checkboxes': { populate: '*' },
-										'forms.form-input': { populate: '*' },
-										'forms.form-select': { populate: '*' },
-										'forms.form-submit': { populate: '*' },
-										'forms.form-textarea': { populate: '*' },
-										'forms.form-agree': { populate: '*' },
-									},
-								},
-							},
-						},
-					},
-				},
-				'sections.reviews': {
-					populate: '*',
-				},
-				'sections.schedule': { populate: '*' },
-				'sections.service': { populate: '*' },
-				'sections.text-section': { populate: '*' },
-			},
-		},
-	},
-});
+const BASE_URL = `${BACKEND_URL}/api`;
 
-export async function getHomePageData() {
-	const response = await fetch(`${BACKEND_URL}/api/homepage?${queryPage}`, {
-		cache: 'no-store', // Отключение кеша
-		// next: { revalidate: 60 },
-	});
-
-	if (response.status === 404) {
-		notFound();
-	}
-
-	if (!response.ok) {
-		throw new Error('Failed to fetch home page data');
-	}
-
-	return response.json();
+interface RequestOptions extends RequestInit {
+	token?: string;
 }
 
-export async function getPageBySlug(slug: string) {
-	const response = await fetch(
-		`${BACKEND_URL}/api/pages?filters[slug][$eq]=${slug}&${queryPage}`,
-		{
-			cache: 'no-store', // Отключение кеша
-			// next: { revalidate: 60 },
-		},
-	);
+export default async function request<T>(endpoint = '/', options: RequestOptions = {}): Promise<T> {
+	const url = `${BASE_URL}${endpoint.startsWith('/') ? endpoint : `/${endpoint}`}`;
 
-	if (response.status === 404) {
-		notFound();
+	// Базовые заголовки
+	const defaultHeaders: Record<string, string> = {};
+
+	// Если передаем body, принудительно выставляем JSON тип
+	if (options.body) {
+		defaultHeaders['Content-Type'] = 'application/json';
 	}
 
-	if (!response.ok) {
-		throw new Error('Failed to fetch home page data');
-	}
+	// Собираем всё вместе: сначала дефолтные, потом те, что передали вручную (например, Authorization)
+	const finalHeaders = {
+		...defaultHeaders,
+		...options.headers,
+	} as HeadersInit;
 
-	return response.json();
-}
-
-export async function getFooterData() {
-	const response = await fetch(`${BACKEND_URL}/api/footer?populate=*`, {
-		next: { revalidate: 60 },
+	const response = await fetch(url, {
+		...options,
+		headers: finalHeaders,
 	});
 
 	if (!response.ok) {
-		throw new Error('Failed to fetch home page data');
+		const error = await response.json().catch(() => ({}));
+		throw new Error(error.error?.message ?? `HTTP error: ${response.status}`);
 	}
 
-	return response.json();
-}
-
-export async function getFooterMenu() {
-	const response = await fetch(
-		`${BACKEND_URL}/api/navigation/render/footer-navigation?type=TREE&locale=ru`,
-		{
-			next: { revalidate: 60 },
-		},
-	);
-	if (!response.ok) {
-		throw new Error('Failed to fetch home page data');
+	// Проверяем статус 204 (No Content) или пустой ответ
+	if (response.status === 204) {
+		return {} as T;
 	}
 
-	return response.json();
-}
-
-export async function getHeaderData() {
-	const response = await fetch(`${BACKEND_URL}/api/header?populate=*`, {
-		next: { revalidate: 60 },
-	});
-
-	if (!response.ok) {
-		throw new Error('Failed to fetch home page data');
-	}
-
-	return response.json();
-}
-
-export async function getHeaderMenu() {
-	const response = await fetch(
-		`${BACKEND_URL}/api/navigation/render/header-navigation?type=TREE&locale=ru`,
-		{
-			next: { revalidate: 60 },
-		},
-	);
-	if (!response.ok) {
-		throw new Error('Failed to fetch home page data');
-	}
-
-	return response.json();
+	// Безопасно парсим JSON, только если он есть
+	const text = await response.text();
+	return text ? JSON.parse(text) : ({} as T);
 }

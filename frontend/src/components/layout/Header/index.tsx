@@ -5,7 +5,7 @@ import { BACKEND_URL } from '@/constants';
 import type { Header as HeaderType } from '@backend-types/header';
 import { TreeNavigationItem } from '@/types';
 import Image from 'next/image';
-import { getHeaderData, getHeaderMenu } from '@/api/request';
+import { getHeaderData, getHeaderMenu } from '@/api/APIs';
 import Menu from './Menu';
 import ThemeToggleButton from './ThemeToggleButton';
 

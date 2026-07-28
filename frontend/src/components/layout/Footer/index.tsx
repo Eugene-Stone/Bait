@@ -1,4 +1,4 @@
-import { getFooterData, getFooterMenu } from '@/api/request';
+import { getFooterData, getFooterMenu } from '@/api/APIs';
 import { BACKEND_URL } from '@/constants';
 import RichText from '@/utils/RichText';
 import { Footer as FooterType } from '@backend-types/footer';

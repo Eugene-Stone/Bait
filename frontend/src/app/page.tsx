@@ -1,4 +1,4 @@
-import { getHomePageData } from '@/api/request';
+import { getHomePageData } from '@/api/APIs';
 import DynamicSections from '@/components/sections/DynamicSections';
 
 import { BACKEND_URL, FRONTEND_URL, SITE_TITLE } from '@/constants';
@@ -13,7 +13,7 @@ export async function generateMetadata(): Promise<Metadata> {
 	const dataPage = await getHomePageData();
 
 	const pageTitle = dataPage.data.title;
-	const seo: LayoutSeo = dataPage?.data?.seo;
+	const seo: LayoutSeo = dataPage?.data?.seo || {};
 
 	const {
 		canonical,
