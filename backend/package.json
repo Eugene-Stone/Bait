@@ -20,6 +20,7 @@
     "@strapi/plugin-cloud": "5.50.1",
     "@strapi/plugin-documentation": "^5.50.1",
     "@strapi/plugin-users-permissions": "5.50.1",
+    "@strapi/provider-email-nodemailer": "^5.50.1",
     "@strapi/strapi": "5.50.1",
     "better-sqlite3": "12.8.0",
     "monaco-editor": "^0.56.0",
@@ -35,7 +36,6 @@
     "strapi-plugin-preview-button": "^3.0.2",
     "styled-components": "^6.0.0"
   },
-
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",

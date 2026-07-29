@@ -51,3 +51,24 @@ export type Pagination = {
 export type Meta = {
 	pagination: Pagination;
 };
+
+export interface LoginRequest {
+	identifier: string;
+	password: string;
+}
+
+export interface RegisterRequest {
+	username: string;
+	email: string;
+	password: string;
+}
+export interface ForgotPasswordRequest {
+	email: string;
+}
+export interface ResetPasswordForm {
+	password: string;
+	passwordConfirmation: string;
+}
+export interface ResetPasswordRequest extends ResetPasswordForm {
+	code: string;
+}

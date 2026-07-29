@@ -1,16 +1,12 @@
 'use client';
 import { login } from '@/api/auth-client';
+import { LoginRequest } from '@/types';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 type FormStatus = 'idle' | 'loading' | 'success' | 'error';
-
-export interface LoginRequest {
-	identifier: string;
-	password: string;
-}
 
 export default function Login() {
 	const [status, setStatus] = useState<FormStatus>('idle');
@@ -36,8 +32,8 @@ export default function Login() {
 		try {
 			const response = await login(identifier, password);
 
-			console.log(dataAuth);
-			console.log(response);
+			// console.log(dataAuth);
+			// console.log(response);
 
 			setStatus('success');
 			setTimeout(() => {

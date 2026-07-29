@@ -1841,6 +1841,7 @@ body.is-dark {
 	&:has(input:disabled) {
 		color: #ccc;
 		cursor: default;
+		opacity: 0.75;
 	}
 }
 
