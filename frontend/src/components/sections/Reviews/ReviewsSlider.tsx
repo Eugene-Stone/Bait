@@ -4,18 +4,20 @@ import { Navigation, Pagination, Scrollbar, A11y, Mousewheel } from 'swiper/modu
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 // Import Swiper styles
-import { Review } from '@backend-types/review';
+import { Review as ReviewType } from '@backend-types/review';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import { useEffect, useState } from 'react';
 import { BACKEND_URL } from '@/constants';
+import { Meta } from '@/types';
+import Review from '@/components/Review';
 
 type Props = {
 	reviewsData: {
-		data: Review[];
-		meta: any;
+		data: ReviewType[];
+		meta: Meta;
 	};
 };
 
@@ -85,24 +87,10 @@ export default function ReviewsSlider({ reviewsData }: Props) {
 					sensitivity: 1,
 				}}>
 				{reviews?.map((review, i) => {
-					const date = new Date(review.createdAt!).toLocaleDateString('uk-UA');
-
 					return (
 						<SwiperSlide key={i}>
 							<div className="review-slide-itm">
-								<div className="review-slide-inner">
-									<div className="review-slide-top-line">
-										<div className="review-slide-author">
-											{review?.user?.username}
-										</div>
-										<div className="review-slide-date">{date}</div>
-									</div>
-									<div className="review-slide-txt">
-										Оценка <strong>{review.rating}</strong>{' '}
-										{review.rating === 5 ? 'звезд!!!' : 'звезды'} <br />
-										{review.text}
-									</div>
-								</div>
+								<Review review={review} />
 							</div>
 						</SwiperSlide>
 					);

@@ -1,8 +1,7 @@
 import { getMe } from '@/api/auth-server';
 import { redirect } from 'next/navigation';
-import Link from 'next/link';
 import { ViewTransition } from 'react';
-import LogoutButton from '@/components/profile/LogoutButton';
+import Menu from '@/components/profile/Menu';
 // import { logout } from '@/api/auth-client';
 
 export default async function RootLayout({
@@ -21,36 +20,7 @@ export default async function RootLayout({
 				<h2 className="nw-auth-title">Личный кабинет</h2>
 				<div className="nw-profile-grid">
 					<aside className="nw-profile-sidebar">
-						<ul className="nw-profile-menu">
-							<li className="nw-profile-menu-item">
-								<Link
-									className="nw-profile-menu-link nw-profile-menu-link-active"
-									href="/profile/info"
-									data-discover="true"
-									aria-current="page">
-									Профиль
-								</Link>
-							</li>
-							<li className="nw-profile-menu-item">
-								<Link
-									className="nw-profile-menu-link"
-									href="/profile/reviews"
-									data-discover="true">
-									История отзывов
-								</Link>
-							</li>
-							<li className="nw-profile-menu-item">
-								<Link
-									className="nw-profile-menu-link"
-									href="/profile/comments"
-									data-discover="true">
-									История коментариев
-								</Link>
-							</li>
-							<li className="nw-profile-menu-item">
-								<LogoutButton />
-							</li>
-						</ul>
+						<Menu />
 					</aside>
 					<main className="nw-profile-content">
 						<ViewTransition>{children}</ViewTransition>

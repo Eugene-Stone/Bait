@@ -11,6 +11,7 @@ import { imageSrcSet } from '@/utils/imageSrcSet';
 import Image from 'next/image';
 import { buildQuery } from '@/utils/buildQuery';
 import { formatDate } from '@/utils/formatDate';
+import { getMe } from '@/api/auth-server';
 
 export async function getPageBySlug(slug: string) {
 	const query = buildQuery({
@@ -116,6 +117,7 @@ export async function generateMetadata({
 
 export default async function PageBySlug({ params }: { params: Promise<{ slug: string }> }) {
 	const { slug } = await params;
+	const user = await getMe();
 
 	const dataPage = await getPageBySlug(slug);
 	const page: Course = dataPage.data?.[0];
@@ -178,13 +180,56 @@ export default async function PageBySlug({ params }: { params: Promise<{ slug: s
 				<RichText className="nw-post-body">{text}</RichText>
 
 				<h3 className="nw-comments-title">Обсуждение курса</h3>
-				<div className="reviews__leave-notice">
-					<p>
-						Чтобы задать вопрос или оставить комментарий,{' '}
-						<Link href="/login">авторизируйтесь</Link> или{' '}
-						<Link href="/registration">зарегистрируйтесь</Link> на&nbsp;сайте.
-					</p>
-				</div>
+
+				<ul className="nw-comments-list">
+					<li className="nw-comment-item">
+						<div className="nw-comment-meta">
+							<span className="nw-comment-author">UserTest</span>
+							<span className="nw-comment-date">15 июля 2026, 17:06</span>
+						</div>
+						<p className="nw-comment-text">Новый Отзыв</p>
+					</li>
+				</ul>
+
+				{user ? (
+					<div className="nw-comments-area">
+						<div className="nw-comment-form-wrapper">
+							<h4 className="nw-widget-title">Оставить комментарий</h4>
+							<form className="nw-comment-form">
+								<div className="nw-comment-field-group">
+									<label className="nw-comment-label" htmlFor="comment-message">
+										Ваш комментарий *
+									</label>
+									<textarea
+										name="comment"
+										className="nw-comment-textarea"
+										id="comment-message"
+										defaultValue={''}
+									/>
+								</div>
+								<div style={{ display: 'flex', gap: 10 }}>
+									<button className="nw-comment-submit-button" type="submit">
+										Отправить
+									</button>
+									<button
+										className="nw-comment-submit-button cancel"
+										type="button">
+										Отмена
+									</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				) : (
+					<div className="reviews__leave-notice">
+						<p>
+							Чтобы задать вопрос или оставить комментарий,{' '}
+							<Link href="/login">авторизируйтесь</Link> или{' '}
+							<Link href="/registration">зарегистрируйтесь</Link> на&nbsp;сайте.
+						</p>
+					</div>
+				)}
+
 				<footer className="nw-post-footer">
 					<Link className="nw-post-back-link" href="/courses">
 						← Назад ко всем курсам
