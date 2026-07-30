@@ -1118,11 +1118,20 @@ export interface PluginNavigationAudience extends Struct.CollectionTypeSchema {
     name: 'audience';
     pluralName: 'audiences';
     singularName: 'audience';
+    visible: false;
   };
   options: {
     comment: 'Audience';
     draftAndPublish: false;
     increments: true;
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: false;
+    };
+    'content-type-builder': {
+      visible: false;
+    };
   };
   attributes: {
     createdAt: Schema.Attribute.DateTime;

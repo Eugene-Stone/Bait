@@ -5,7 +5,11 @@ export default function ThemeToggleButton() {
 	const { isDark, setIsDark } = useThemeContext();
 
 	return (
-		<button className="theme-toggle-button" type="button" onClick={() => setIsDark(!isDark)}>
+		<button
+			className="theme-toggle-button"
+			type="button"
+			aria-label="Сменить тему"
+			onClick={() => setIsDark(!isDark)}>
 			<svg
 				className="sun-icon"
 				version="1.0"

@@ -14,11 +14,11 @@ a[href="#main-content"] {
 	}
 }
 
-nav[aria-label="Content Manager"],
+/* nav[aria-label="Content Manager"],
 nav[aria-label="Content-Type Builder"] {
 	ul {
 		li:has(> a[href*="/plugin::navigation.audience"]) {
 			display: none;
 		}
 	}
-}
+} */

@@ -137,11 +137,15 @@ export default async function Courses({
 				<h2 className="nw-auth-title">Наши курсы</h2>
 
 				<div className="nw-blog-grid">
-					<CoursesSidebar filters={{ directions, levels, allCourses }} />
+					<Suspense fallback={null}>
+						<CoursesSidebar filters={{ directions, levels, allCourses }} />
+					</Suspense>
 
 					<CourseList courses={courses} />
 				</div>
-				<Pagination pageSize={pageSize} pagination={meta.pagination} />
+				<Suspense fallback={null}>
+					<Pagination pageSize={pageSize} pagination={meta.pagination} />
+				</Suspense>
 			</div>
 		</section>
 		// </Suspense>

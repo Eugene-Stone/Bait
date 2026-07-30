@@ -5,8 +5,10 @@ import ButtonScrollTop from '@/components/layout/ButtonScrollTop';
 import ReloadToTop from '@/utils/ReloadToTop';
 import { FRONTEND_URL, SITE_TITLE } from '@/constants';
 
+import ThemeScript from '@/components/layout/ThemeScript';
 import LoadingContextProvider from '@/context/LoadingContext';
 import ThemeContextProvider from '@/context/ThemeContext';
+
 import '../styles/style.scss';
 import '../styles/dark.scss';
 
@@ -57,18 +59,6 @@ export const metadata: Metadata = {
 	},
 };
 
-const themeInitializerScript = `
-   (function() {
-      try {
-         var stored = localStorage.getItem('isDark');
-         var isDark = stored ? JSON.parse(stored) : false;
-         var root = document.documentElement;
-         root.classList.add(isDark ? 'is-dark' : 'is-light');
-         root.classList.remove(isDark ? 'is-light' : 'is-dark');
-      } catch (e) {}
-   })();
-`;
-
 export default function RootLayout({
 	children,
 }: Readonly<{
@@ -78,12 +68,7 @@ export default function RootLayout({
 		// suppressHydrationWarning - позволяет атрибутам элемента <html> изменяться внешними скриптами (до гидратации) и их не нужно сверять.
 		<html lang="ru" data-scroll-behavior="smooth" suppressHydrationWarning>
 			<head>
-				<script
-					suppressHydrationWarning
-					dangerouslySetInnerHTML={{
-						__html: themeInitializerScript,
-					}}
-				/>
+				<ThemeScript />
 			</head>
 			<body>
 				<ThemeContextProvider>

@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname, useSearchParams } from 'next/navigation';
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, Suspense, useContext, useEffect, useState } from 'react';
 
 type LoadingContextType = {
 	startLoading: () => void;
@@ -22,22 +22,45 @@ type Props = {
 	children: React.ReactNode;
 };
 
-export default function LoadingContextProvider({ className, children }: Props) {
+// Вспомогательный клиентский компонент для отслеживания URL в Suspense
+function ParamWatcher({ onUrlChange }: { onUrlChange: () => void }) {
 	const pathname = usePathname();
 	const searchParams = useSearchParams();
+
+	useEffect(() => {
+		onUrlChange();
+	}, [pathname, searchParams, onUrlChange]);
+
+	return null;
+}
+
+export default function LoadingContextProvider({ className, children }: Props) {
+	// const pathname = usePathname();
+	// const searchParams = useSearchParams();
 	const [isLoading, setIsLoading] = useState(false);
 
 	const startLoading = () => setIsLoading(true);
 
 	// Когда URL изменился и новые данные приехали — снимаем оверлей
-	useEffect(() => {
+	// useEffect(() => {
+	// 	setTimeout(() => {
+	// 		setIsLoading(false);
+	// 	}, 100);
+	// }, [pathname, searchParams]);
+
+	const handleUrlChange = () => {
 		setTimeout(() => {
 			setIsLoading(false);
 		}, 100);
-	}, [pathname, searchParams]);
+	};
 
 	return (
 		<LoadingContext.Provider value={{ startLoading }}>
+			{/* Изолируем вызов searchParams */}
+			<Suspense fallback={null}>
+				<ParamWatcher onUrlChange={handleUrlChange} />
+			</Suspense>
+
 			<div className={`${className} ${isLoading ? 'is-loading' : ''}`}>{children}</div>
 		</LoadingContext.Provider>
 	);
