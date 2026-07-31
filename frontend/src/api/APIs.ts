@@ -104,6 +104,55 @@ export async function getPageBySlug(slug: string) {
 	}
 }
 
+export async function getCourseBySlug(slug: string) {
+	const query = buildQuery({
+		populate: {
+			seo: {
+				populate: {
+					ogImage: true,
+				},
+			},
+			image: {
+				populate: '*',
+			},
+			direction: true,
+			level: true,
+			formats: true,
+			comments: {
+				populate: '*',
+			},
+		},
+	});
+
+	try {
+		const response = await fetch(
+			// `${BACKEND_URL}/api/courses?filters[slug][$eq]=${slug}&populate[seo][populate][ogImage]=true&populate[image]=true`,
+			`${BACKEND_URL}/api/courses?filters[slug][$eq]=${slug}&${query}`,
+			{
+				cache: 'no-store', // Отключение кеша
+				// next: { revalidate: 60 },
+			},
+		);
+
+		if (!response.ok) {
+			throw new Error('Failed to fetch home page data');
+		}
+
+		const result = await response.json();
+
+		// Если бэкенд вернул пустой массив — вызываем 404
+		if (!result.data || result.data.length === 0) {
+			notFound();
+		}
+
+		return result;
+	} catch (error) {
+		console.error(error);
+
+		throw new Error('Backend unavailable');
+	}
+}
+
 export async function getFooterData() {
 	try {
 		const response = await fetch(`${BACKEND_URL}/api/footer?populate=*`, {

@@ -1,10 +1,10 @@
 {
   "kind": "collectionType",
-  "collectionName": "course_comments",
+  "collectionName": "comments",
   "info": {
-    "singularName": "course-comment",
-    "pluralName": "course-comments",
-    "displayName": "Course comments"
+    "singularName": "comment",
+    "pluralName": "comments",
+    "displayName": "Comments"
   },
   "options": {
     "draftAndPublish": true
@@ -18,14 +18,13 @@
       "type": "text"
     },
     "isApproved": {
-      "type": "boolean",
-      "default": false
+      "type": "boolean"
     },
-    "users_permissions_user": {
+    "user": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "plugin::users-permissions.user",
-      "inversedBy": "course_comments"
+      "inversedBy": "comments"
     }
   }
 }

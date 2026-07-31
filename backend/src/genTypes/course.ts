@@ -1,9 +1,9 @@
 import { Media } from './media';
 import { Direction } from './direction';
-import { CourseComment } from './courseComment';
 import { Level } from './level';
 import { Format } from './format';
 import { LayoutSeo } from './layoutSeo';
+import { Comment } from './comment';
 
 export interface Course {
   id?: number;
@@ -20,8 +20,8 @@ export interface Course {
   price?: number;
   duration?: string;
   direction?: Direction | null;
-  course_comments?: CourseComment[] | null;
   level?: Level | null;
   formats?: Format[] | null;
   seo?: LayoutSeo | null;
+  comments?: Comment[] | null;
 };

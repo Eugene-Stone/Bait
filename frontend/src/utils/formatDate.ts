@@ -1,13 +1,26 @@
-export function formatDate(value: string | Date) {
+export function formatDate(value: string | Date | undefined, time?: 'withTime') {
+	if (value === undefined) return '0,0,0';
+
 	const date = new Date(value);
-	// 2. Форматируем с помощью Intl
-	const formatter = new Intl.DateTimeFormat('ru-RU', {
-		day: 'numeric',
-		month: 'long',
-		year: 'numeric',
-		// hour: '2-digit',
-		// minute: '2-digit',
-	});
+
+	let formatter;
+	if (time === 'withTime') {
+		formatter = new Intl.DateTimeFormat('ru-RU', {
+			day: 'numeric',
+			month: 'long',
+			year: 'numeric',
+			hour: '2-digit',
+			minute: '2-digit',
+		});
+	} else {
+		formatter = new Intl.DateTimeFormat('ru-RU', {
+			day: 'numeric',
+			month: 'long',
+			year: 'numeric',
+			// hour: '2-digit',
+			// minute: '2-digit',
+		});
+	}
 
 	const parts = formatter.formatToParts(date);
 	// console.log('date parts ', parts);

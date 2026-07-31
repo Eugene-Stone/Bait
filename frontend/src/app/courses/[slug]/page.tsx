@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-// import { getPageBySlug } from '@/api/APIs';
 import type { LayoutSeo } from '@backend-types/layoutSeo';
 import { BACKEND_URL, SITE_TITLE } from '@/constants';
 import DynamicSections from '@/components/sections/DynamicSections';
@@ -12,48 +11,8 @@ import Image from 'next/image';
 import { buildQuery } from '@/utils/buildQuery';
 import { formatDate } from '@/utils/formatDate';
 import { getMe } from '@/api/auth-server';
-
-export async function getPageBySlug(slug: string) {
-	const query = buildQuery({
-		populate: {
-			seo: {
-				populate: {
-					ogImage: true,
-				},
-			},
-			image: {
-				populate: '*',
-			},
-			direction: true,
-			level: true,
-			formats: true,
-		},
-	});
-
-	const response = await fetch(
-		// `${BACKEND_URL}/api/courses?filters[slug][$eq]=${slug}&populate[seo][populate][ogImage]=true&populate[image]=true`,
-		`${BACKEND_URL}/api/courses?filters[slug][$eq]=${slug}&${query}`,
-		{
-			cache: 'no-store', // Отключение кеша
-			// next: { revalidate: 60 },
-		},
-	);
-
-	// console.log(query);
-
-	if (!response.ok) {
-		throw new Error('Failed to fetch home page data');
-	}
-
-	const result = await response.json();
-
-	// Если бэкенд вернул пустой массив — вызываем 404
-	if (!result.data || result.data.length === 0) {
-		notFound();
-	}
-
-	return result;
-}
+import { getCourseBySlug } from '@/api/APIs';
+import Comment from '@/components/Comment';
 
 export async function generateMetadata({
 	params,
@@ -61,7 +20,7 @@ export async function generateMetadata({
 	params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
 	const { slug } = await params;
-	const dataPage = await getPageBySlug(slug);
+	const dataPage = await getCourseBySlug(slug);
 
 	const page = dataPage.data?.[0];
 
@@ -115,18 +74,18 @@ export async function generateMetadata({
 	};
 }
 
-export default async function PageBySlug({ params }: { params: Promise<{ slug: string }> }) {
+export default async function CourseBySlug({ params }: { params: Promise<{ slug: string }> }) {
 	const { slug } = await params;
 	const user = await getMe();
 
-	const dataPage = await getPageBySlug(slug);
+	const dataPage = await getCourseBySlug(slug);
 	const page: Course = dataPage.data?.[0];
 
 	if (!page) {
 		notFound();
 	}
 
-	const { title, image, text } = page;
+	const { title, image, text, comments } = page;
 	const { srcSetString } = imageSrcSet(page.image);
 
 	return (
@@ -162,16 +121,15 @@ export default async function PageBySlug({ params }: { params: Promise<{ slug: s
 				<RichText className="nw-post-body">{text}</RichText>
 
 				<h3 className="nw-comments-title">Обсуждение курса</h3>
-
-				<ul className="nw-comments-list">
-					<li className="nw-comment-item">
-						<div className="nw-comment-meta">
-							<span className="nw-comment-author">UserTest</span>
-							<span className="nw-comment-date">15 июля 2026, 17:06</span>
-						</div>
-						<p className="nw-comment-text">Новый Отзыв</p>
-					</li>
-				</ul>
+				{comments && (
+					<ul className="nw-comments-list">
+						{comments.map((comment, i) => {
+							if (comment.isApproved) {
+								return <Comment key={i} comment={comment} />;
+							}
+						})}
+					</ul>
+				)}
 
 				{user ? (
 					<div className="nw-comments-area">

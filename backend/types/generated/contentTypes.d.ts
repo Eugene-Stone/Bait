@@ -441,13 +441,12 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
-export interface ApiCourseCommentCourseComment
-  extends Struct.CollectionTypeSchema {
-  collectionName: 'course_comments';
+export interface ApiCommentComment extends Struct.CollectionTypeSchema {
+  collectionName: 'comments';
   info: {
-    displayName: 'Course comments';
-    pluralName: 'course-comments';
-    singularName: 'course-comment';
+    displayName: 'Comments';
+    pluralName: 'comments';
+    singularName: 'comment';
   };
   options: {
     draftAndPublish: true;
@@ -456,11 +455,11 @@ export interface ApiCourseCommentCourseComment
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    isApproved: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    isApproved: Schema.Attribute.Boolean;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
-      'api::course-comment.course-comment'
+      'api::comment.comment'
     > &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
@@ -469,7 +468,7 @@ export interface ApiCourseCommentCourseComment
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    users_permissions_user: Schema.Attribute.Relation<
+    user: Schema.Attribute.Relation<
       'manyToOne',
       'plugin::users-permissions.user'
     >;
@@ -487,10 +486,7 @@ export interface ApiCourseCourse extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
-    course_comments: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::course-comment.course-comment'
-    >;
+    comments: Schema.Attribute.Relation<'oneToMany', 'api::comment.comment'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1720,12 +1716,9 @@ export interface PluginUsersPermissionsUser
   attributes: {
     avatar: Schema.Attribute.Media<'images'>;
     blocked: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    comments: Schema.Attribute.Relation<'oneToMany', 'api::comment.comment'>;
     confirmationToken: Schema.Attribute.String & Schema.Attribute.Private;
     confirmed: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
-    course_comments: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::course-comment.course-comment'
-    >;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1776,7 +1769,7 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
-      'api::course-comment.course-comment': ApiCourseCommentCourseComment;
+      'api::comment.comment': ApiCommentComment;
       'api::course.course': ApiCourseCourse;
       'api::direction.direction': ApiDirectionDirection;
       'api::footer.footer': ApiFooterFooter;
