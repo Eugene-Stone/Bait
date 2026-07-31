@@ -142,6 +142,8 @@ export default async function Courses({
 
 					<CourseList courses={courses} />
 				</div>
+
+				{/* При вызове useSearchParams() в клиентском компоненте Next.js может потребовать обернуть этот компонент в <Suspense></Suspense> */}
 				<Suspense fallback={null}>
 					<Pagination pageSize={pageSize} pagination={meta.pagination} />
 				</Suspense>

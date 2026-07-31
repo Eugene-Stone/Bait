@@ -1,4 +1,10 @@
-import { ForgotPasswordRequest, RegisterRequest, ResetPasswordRequest } from '@/types';
+import {
+	CommentDataRequest,
+	ForgotPasswordRequest,
+	RegisterRequest,
+	ResetPasswordRequest,
+} from '@/types';
+import { stringify } from 'querystring';
 
 export async function registerUser(data: RegisterRequest) {
 	const response = await fetch('/api/register', {
@@ -90,6 +96,23 @@ export async function resetPassword(dataReset: ResetPasswordRequest) {
 
 	if (!response.ok) {
 		throw new Error(data.error?.message ?? 'reset-password error');
+	}
+
+	return data;
+}
+
+export async function leaveComment(commentData: CommentDataRequest) {
+	const response = await fetch('/api/leave-comment', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({ data: commentData }),
+	});
+
+	const data = await response.json();
+	if (!response.ok) {
+		throw new Error(data.error?.message ?? 'leave-comment error');
 	}
 
 	return data;

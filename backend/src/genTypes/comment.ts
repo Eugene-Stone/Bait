@@ -1,4 +1,5 @@
 import { User } from './user';
+import { Course } from './course';
 
 export interface Comment {
   id?: number;
@@ -11,4 +12,5 @@ export interface Comment {
   text?: string;
   isApproved?: boolean;
   user?: User | null;
+  course?: Course | null;
 };

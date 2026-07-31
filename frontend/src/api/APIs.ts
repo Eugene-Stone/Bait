@@ -75,6 +75,8 @@ export async function getHomePageData() {
 }
 
 export async function getPageBySlug(slug: string) {
+	let result;
+
 	try {
 		console.log(queryPage);
 		const response = await fetch(
@@ -89,19 +91,17 @@ export async function getPageBySlug(slug: string) {
 			throw new Error('Failed to fetch home page data');
 		}
 
-		const result = await response.json();
-
-		// Если бэкенд вернул пустой массив — вызываем 404
-		if (!result.data || result.data.length === 0) {
-			notFound();
-		}
-
-		return result;
+		result = await response.json();
 	} catch (error) {
 		console.error(error);
-
 		throw new Error('Backend unavailable');
 	}
+
+	// Если бэкенд вернул пустой массив — вызываем 404
+	if (!result.data || result.data.length === 0) {
+		notFound();
+	}
+	return result;
 }
 
 export async function getCourseBySlug(slug: string) {
@@ -124,6 +124,8 @@ export async function getCourseBySlug(slug: string) {
 		},
 	});
 
+	let result;
+
 	try {
 		const response = await fetch(
 			// `${BACKEND_URL}/api/courses?filters[slug][$eq]=${slug}&populate[seo][populate][ogImage]=true&populate[image]=true`,
@@ -138,19 +140,19 @@ export async function getCourseBySlug(slug: string) {
 			throw new Error('Failed to fetch home page data');
 		}
 
-		const result = await response.json();
-
-		// Если бэкенд вернул пустой массив — вызываем 404
-		if (!result.data || result.data.length === 0) {
-			notFound();
-		}
-
-		return result;
+		result = await response.json();
 	} catch (error) {
 		console.error(error);
 
 		throw new Error('Backend unavailable');
 	}
+
+	// Если бэкенд вернул пустой массив — вызываем 404
+	if (!result.data || result.data.length === 0) {
+		notFound();
+	}
+
+	return result;
 }
 
 export async function getFooterData() {

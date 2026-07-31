@@ -13,6 +13,7 @@ import { formatDate } from '@/utils/formatDate';
 import { getMe } from '@/api/auth-server';
 import { getCourseBySlug } from '@/api/APIs';
 import Comment from '@/components/Comment';
+import CommentForm from '@/components/CommentForm';
 
 export async function generateMetadata({
 	params,
@@ -132,40 +133,17 @@ export default async function CourseBySlug({ params }: { params: Promise<{ slug:
 				)}
 
 				{user ? (
-					<div className="nw-comments-area">
-						<div className="nw-comment-form-wrapper">
-							<h4 className="nw-widget-title">Оставить комментарий</h4>
-							<form className="nw-comment-form">
-								<div className="nw-comment-field-group">
-									<label className="nw-comment-label" htmlFor="comment-message">
-										Ваш комментарий *
-									</label>
-									<textarea
-										name="comment"
-										className="nw-comment-textarea"
-										id="comment-message"
-										defaultValue={''}
-									/>
-								</div>
-								<div style={{ display: 'flex', gap: 10 }}>
-									<button className="nw-comment-submit-button" type="submit">
-										Отправить
-									</button>
-									<button
-										className="nw-comment-submit-button cancel"
-										type="button">
-										Отмена
-									</button>
-								</div>
-							</form>
-						</div>
-					</div>
+					<CommentForm user={user} course={page} />
 				) : (
 					<div className="reviews__leave-notice">
 						<p>
 							Чтобы задать вопрос или оставить комментарий,{' '}
-							<Link href="/login">авторизируйтесь</Link> или{' '}
-							<Link href="/registration">зарегистрируйтесь</Link> на&nbsp;сайте.
+							{/* Символ # в query-параметрах отсекается браузером как хэш текущего URL, если его не закодировать. Нужно завернуть значение callbackUrl в encodeURIComponent: */}
+							<Link
+								href={`/login?callbackUrl=${encodeURIComponent(`/courses/${slug}#comment-form-area`)}`}>
+								авторизируйтесь
+							</Link>{' '}
+							или <Link href="/registration">зарегистрируйтесь</Link> на&nbsp;сайте.
 						</p>
 					</div>
 				)}

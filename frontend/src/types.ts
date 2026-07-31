@@ -1,3 +1,5 @@
+import { Course } from '@backend-types/course';
+
 export type NavigationItemType = 'INTERNAL' | 'EXTERNAL' | 'WRAPPER';
 
 export interface NavigationRelated {
@@ -71,4 +73,17 @@ export interface ResetPasswordForm {
 }
 export interface ResetPasswordRequest extends ResetPasswordForm {
 	code: string;
+}
+
+export type CommentDataRequest = {
+	title: string;
+	text: string;
+	user: number;
+	course: number;
+};
+
+export type FormStatus = 'idle' | 'loading' | 'success' | 'error';
+
+export interface CourseExtended extends Course {
+	documentId?: string;
 }

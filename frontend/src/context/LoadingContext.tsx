@@ -57,6 +57,7 @@ export default function LoadingContextProvider({ className, children }: Props) {
 	return (
 		<LoadingContext.Provider value={{ startLoading }}>
 			{/* Изолируем вызов searchParams */}
+			{/* При вызове useSearchParams() в клиентском компоненте Next.js может потребовать обернуть этот компонент в <Suspense></Suspense> */}
 			<Suspense fallback={null}>
 				<ParamWatcher onUrlChange={handleUrlChange} />
 			</Suspense>
