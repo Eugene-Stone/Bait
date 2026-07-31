@@ -19,7 +19,11 @@ export default function GlobalError({ error, reset }: { error: Error; reset: () 
 
 							{/* <p>{error.message}</p> */}
 							<div className="btn-more-wrap center">
-								<button className="btn" onClick={() => reset()}>
+								<button
+									className="btn"
+									onClick={() => {
+										window.location.reload();
+									}}>
 									Попробовать снова
 								</button>
 							</div>

@@ -42,11 +42,13 @@ export default function GalleryList({ gallery }: Props) {
 				<div className="gallery-box masonry-box">
 					<div className="gallery-lst masonry-lst">
 						{visibleImages?.map((image, i) => {
-							const imageFormats = imageSrcSet(image);
+							// const imageFormats = imageSrcSet(image);
 
-							const srcSetString = imageFormats
-								?.map((format) => `${BACKEND_URL}${format.url} ${format.width}w`)
-								.join(', ');
+							// const srcSetString = imageFormats
+							// 	?.map((format) => `${BACKEND_URL}${format.url} ${format.width}w`)
+							// 	.join(', ');
+
+							const { srcSetString } = imageSrcSet(image);
 
 							return (
 								<div key={i} className="gallery-itm masonry-itm">

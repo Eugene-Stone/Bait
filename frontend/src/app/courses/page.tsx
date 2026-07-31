@@ -137,9 +137,8 @@ export default async function Courses({
 				<h2 className="nw-auth-title">Наши курсы</h2>
 
 				<div className="nw-blog-grid">
-					<Suspense fallback={null}>
-						<CoursesSidebar filters={{ directions, levels, allCourses }} />
-					</Suspense>
+					{/* <Suspense fallback={null}></Suspense> */}
+					<CoursesSidebar filters={{ directions, levels, allCourses }} />
 
 					<CourseList courses={courses} />
 				</div>

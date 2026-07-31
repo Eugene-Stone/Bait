@@ -126,26 +126,8 @@ export default async function PageBySlug({ params }: { params: Promise<{ slug: s
 		notFound();
 	}
 
-	// const { sections } = page;
-	// console.log(page);
-
 	const { title, image, text } = page;
-	// console.log(page);
-
-	const imageFormats = page.image && imageSrcSet(page.image);
-	const srcSetString = imageFormats
-		?.map((format) => `${BACKEND_URL}${format.url} ${format.width}w`)
-		.join(', ');
-
-	// const date = new Date(page?.createdAt || '');
-	// // 2. Форматируем с помощью Intl
-	// const formatter = new Intl.DateTimeFormat('ru-RU', {
-	// 	day: 'numeric',
-	// 	month: 'long',
-	// 	year: 'numeric',
-	// });
-
-	// const formattedDate = formatter.format(date);
+	const { srcSetString } = imageSrcSet(page.image);
 
 	return (
 		<section className="nw-blog-section">

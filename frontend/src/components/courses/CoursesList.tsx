@@ -9,10 +9,12 @@ export default function CourseList({ courses }: { courses: Course[] }) {
 	return (
 		<main className="nw-articles-grid">
 			{courses.map((course) => {
-				const imageFormats = course.image && imageSrcSet(course.image);
-				const srcSetString = imageFormats
-					?.map((format) => `${BACKEND_URL}${format.url} ${format.width}w`)
-					.join(', ');
+				// const imageFormats = course.image && imageSrcSet(course.image);
+				// const srcSetString = imageFormats
+				// 	?.map((format) => `${BACKEND_URL}${format.url} ${format.width}w`)
+				// 	.join(', ');
+
+				const { srcSetString } = imageSrcSet(course.image);
 
 				return (
 					<article key={course.slug} className="nw-article-card">

@@ -8,11 +8,15 @@ export default function Error({ error, reset }: { error: Error; reset: () => voi
 				<br />
 				<br />
 				<div className="title-sect center">
-					<h1 className="h1-title">Сайт временно недоступен</h1>
+					<h1 className="h1-title">Возникли проблемы</h1>
 
 					{/* <p>{error.message}</p> */}
 					<div className="btn-more-wrap center">
-						<button className="btn" onClick={() => reset()}>
+						<button
+							className="btn"
+							onClick={() => {
+								window.location.reload();
+							}}>
 							Попробовать снова
 						</button>
 					</div>

@@ -11,10 +11,12 @@ type Props = {
 export default function About({ data }: Props) {
 	const { title, text, image, anchor } = data;
 
-	const imageFormats = image && imageSrcSet(image);
-	const srcSetString = imageFormats
-		?.map((format) => `${BACKEND_URL}${format.url} ${format.width}w`)
-		.join(', ');
+	// const imageFormats = image && imageSrcSet(image);
+	// const srcSetString = imageFormats
+	// 	?.map((format) => `${BACKEND_URL}${format.url} ${format.width}w`)
+	// 	.join(', ');
+
+	const { srcSetString } = imageSrcSet(image);
 
 	return (
 		<section id={anchor} className="sect-txt bg-color-1">
