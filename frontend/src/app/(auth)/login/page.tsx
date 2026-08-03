@@ -3,8 +3,8 @@ import LoginForm from '@/components/LoginForm';
 import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
 
-export const dynamic = 'force-static';
-export const revalidate = 300; // Пересборка каждые 5 минут
+export const dynamic = 'force-dynamic';
+export const revalidate = 60; // Пересборка каждые 60 секунд
 
 type Props = {
 	params: Promise<{ slug: string }>;
@@ -22,9 +22,9 @@ export default async function Login({ params }: Props) {
 				<h2 className="nw-auth-title">Вход</h2>
 
 				{/* При вызове useSearchParams() в клиентском компоненте Next.js может потребовать обернуть этот компонент в <Suspense></Suspense> */}
-				<Suspense fallback={null}>
-					<LoginForm />
-				</Suspense>
+				{/* <Suspense fallback={null}> */}
+				<LoginForm />
+				{/* </Suspense> */}
 			</div>
 		</section>
 	);

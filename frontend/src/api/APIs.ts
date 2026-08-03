@@ -55,7 +55,7 @@ export async function getHomePageData() {
 	try {
 		const response = await fetch(`${BACKEND_URL}/api/homepage?${queryPage}`, {
 			// cache: 'no-store', // Отключение кеша
-			next: { revalidate: 60 },
+			next: { revalidate: 600 },
 		});
 
 		if (response.status === 404) {
@@ -83,7 +83,7 @@ export async function getPageBySlug(slug: string) {
 			`${BACKEND_URL}/api/pages?filters[slug][$eq]=${slug}&${queryPage}`,
 			{
 				cache: 'no-store', // Отключение кеша
-				// next: { revalidate: 60 },
+				// next: { revalidate: 600 },
 			},
 		);
 
@@ -132,7 +132,7 @@ export async function getCourseBySlug(slug: string) {
 			`${BACKEND_URL}/api/courses?filters[slug][$eq]=${slug}&${query}`,
 			{
 				cache: 'no-store', // Отключение кеша
-				// next: { revalidate: 60 },
+				// next: { revalidate: 600 },
 			},
 		);
 
@@ -158,7 +158,7 @@ export async function getCourseBySlug(slug: string) {
 export async function getFooterData() {
 	try {
 		const response = await fetch(`${BACKEND_URL}/api/footer?populate=*`, {
-			next: { revalidate: 60 },
+			next: { revalidate: 600 },
 		});
 
 		if (!response.ok) {
@@ -178,7 +178,7 @@ export async function getFooterMenu() {
 		const response = await fetch(
 			`${BACKEND_URL}/api/navigation/render/footer-navigation?type=TREE&locale=ru`,
 			{
-				next: { revalidate: 60 },
+				next: { revalidate: 600 },
 			},
 		);
 		if (!response.ok) {
@@ -196,7 +196,7 @@ export async function getFooterMenu() {
 export async function getHeaderData() {
 	try {
 		const response = await fetch(`${BACKEND_URL}/api/header?populate=*`, {
-			next: { revalidate: 60 },
+			next: { revalidate: 600 },
 		});
 
 		if (!response.ok) {
@@ -216,7 +216,7 @@ export async function getHeaderMenu() {
 		const response = await fetch(
 			`${BACKEND_URL}/api/navigation/render/header-navigation?type=TREE&locale=ru`,
 			{
-				next: { revalidate: 60 },
+				next: { revalidate: 600 },
 			},
 		);
 		if (!response.ok) {

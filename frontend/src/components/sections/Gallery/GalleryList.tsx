@@ -66,7 +66,7 @@ export default function GalleryList({ gallery }: Props) {
 												alt={image.alternativeText}
 												width={image.width}
 												height={image.height}
-												src={image.url}
+												src={BACKEND_URL + image.url}
 												onClick={() => setIndexShowing(i)}
 											/>
 										</picture>

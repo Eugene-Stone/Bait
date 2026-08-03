@@ -1,4 +1,5 @@
 'use client';
+
 import { forgotPassword, login } from '@/api/auth-client';
 import { ForgotPasswordRequest, FormStatus, LoginRequest } from '@/types';
 import Link from 'next/link';

@@ -1,8 +1,8 @@
 import ResetPasswordForm from '@/components/ResetPasswordForm';
 import { Suspense } from 'react';
 
-export const dynamic = 'force-static';
-export const revalidate = 300; // Пересборка каждые 5 минут
+export const dynamic = 'force-dynamic';
+export const revalidate = 60; // Пересборка каждые 60 секунд
 
 export default function ResetPassword() {
 	return (

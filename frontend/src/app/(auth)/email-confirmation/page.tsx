@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation';
 
-export const dynamic = 'force-static';
-// export const revalidate = 300; // Пересборка каждые 5 минут
+export const dynamic = 'force-dynamic';
+export const revalidate = 60; // Пересборка каждые 60 секунд
 
 interface Props {
 	searchParams: Promise<{

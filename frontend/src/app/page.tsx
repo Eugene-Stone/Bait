@@ -9,7 +9,7 @@ import { Suspense } from 'react';
 import { Metadata } from 'next';
 import Preloader from '@/components/layout/Preloader';
 
-export const dynamic = 'force-static';
+export const dynamic = 'force-dynamic';
 export const revalidate = 60; // Пересборка каждые 60 секунд
 
 export async function generateMetadata(): Promise<Metadata> {

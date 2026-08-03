@@ -1,5 +1,6 @@
 import { formatDate } from '@/utils/formatDate';
 import { Comment as CommentType } from '@backend-types/comment';
+import CommentEditButton from './CommentEditButton';
 
 type Props = {
 	comment: CommentType;
@@ -14,6 +15,8 @@ export default function Comment({ comment }: Props) {
 				<span className="nw-comment-date">{formattedDate}</span>
 			</div>
 			<p className="nw-comment-text">{comment.text}</p>
+
+			<CommentEditButton />
 		</li>
 	);
 }

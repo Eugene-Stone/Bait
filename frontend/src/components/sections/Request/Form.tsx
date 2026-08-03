@@ -181,7 +181,7 @@ export default function Form({ form }: Props) {
 																? 'This field is required'
 																: false,
 														})}
-														aria-label="Выберите вариант мебели">
+														aria-label="Выберите вариант">
 														{field.options?.map((option, i) => {
 															return (
 																<option

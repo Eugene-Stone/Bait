@@ -9,7 +9,7 @@ type Props = {
 
 export async function getReviewsData() {
 	const response = await fetch(`${BACKEND_URL}/api/reviews?populate=*`, {
-		next: { revalidate: 60 },
+		next: { revalidate: 600 },
 	});
 
 	if (!response.ok) {

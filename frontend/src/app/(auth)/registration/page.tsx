@@ -1,4 +1,5 @@
 'use client';
+
 import { registerUser } from '@/api/auth-client';
 import { FormStatus, RegisterRequest } from '@/types';
 import Link from 'next/link';

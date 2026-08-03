@@ -8,7 +8,7 @@ async function getReviews(user: User) {
 	const response = await fetch(
 		`${BACKEND_URL}/api/reviews?filters[user][id][$eq]=${user.id}&populate=*`,
 		{
-			next: { revalidate: 60 },
+			next: { revalidate: 600 },
 		},
 	);
 

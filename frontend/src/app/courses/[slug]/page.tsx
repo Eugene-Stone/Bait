@@ -13,7 +13,7 @@ import { formatDate } from '@/utils/formatDate';
 import { getMe } from '@/api/auth-server';
 import { getCourseBySlug } from '@/api/APIs';
 import Comment from '@/components/Comment';
-import CommentForm from '@/components/CommentForm';
+import CommentForm from '@/components/Comment/CommentForm';
 
 export async function generateMetadata({
 	params,

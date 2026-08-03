@@ -12,6 +12,18 @@ import ThemeContextProvider from '@/context/ThemeContext';
 import '../styles/style.scss';
 import '../styles/dark.scss';
 
+const themeInitializerScript = `
+  (function() {
+    try {
+      var stored = localStorage.getItem('isDark');
+      var isDark = stored ? JSON.parse(stored) : false;
+      var root = document.documentElement;
+      root.classList.add(isDark ? 'is-dark' : 'is-light');
+      root.classList.remove(isDark ? 'is-light' : 'is-dark');
+    } catch (e) {}
+  })();
+`;
+
 export const viewport: Viewport = {
 	themeColor: [
 		{ media: '(prefers-color-scheme: light)', color: '#ffffff' },
@@ -67,10 +79,12 @@ export default function RootLayout({
 	return (
 		// suppressHydrationWarning - позволяет атрибутам элемента <html> изменяться внешними скриптами (до гидратации) и их не нужно сверять.
 		<html lang="ru" data-scroll-behavior="smooth" suppressHydrationWarning>
-			<head>
+			{/* <head>
 				<ThemeScript />
-			</head>
+			</head> */}
 			<body>
+				<script dangerouslySetInnerHTML={{ __html: themeInitializerScript }} />
+
 				<ThemeContextProvider>
 					<div className="wrapper">
 						{/* <ReloadToTop /> */}

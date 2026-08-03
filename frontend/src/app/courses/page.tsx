@@ -11,7 +11,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 
-export const dynamic = 'force-static';
+export const dynamic = 'force-dynamic';
 export const revalidate = 60; // Пересборка каждые 60 секунд
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -91,7 +91,7 @@ async function getPageData(params: {
 
 	const response = await fetch(`${BACKEND_URL}/api/courses?${queryPage}`, {
 		cache: 'no-store', // Отключение кеша
-		// next: { revalidate: 60 },
+		// next: { revalidate: 600 },
 	});
 
 	if (response.status === 404) {
