@@ -1,12 +1,10 @@
 'use client';
 import { forgotPassword, login } from '@/api/auth-client';
-import { ForgotPasswordRequest, LoginRequest } from '@/types';
+import { ForgotPasswordRequest, FormStatus, LoginRequest } from '@/types';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-
-type FormStatus = 'idle' | 'loading' | 'success' | 'error';
 
 export default function ForgotPassword() {
 	const [status, setStatus] = useState<FormStatus>('idle');

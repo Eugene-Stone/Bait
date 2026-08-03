@@ -1,13 +1,11 @@
 'use client';
 
 import { login } from '@/api/auth-client';
-import { LoginRequest } from '@/types';
+import { FormStatus, LoginRequest } from '@/types';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-
-type FormStatus = 'idle' | 'loading' | 'success' | 'error';
 
 export default function LoginForm() {
 	const [status, setStatus] = useState<FormStatus>('idle');

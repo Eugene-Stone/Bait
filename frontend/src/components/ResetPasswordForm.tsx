@@ -1,11 +1,9 @@
 'use client';
 import { resetPassword } from '@/api/auth-client';
-import { ResetPasswordForm as ResetPasswordFormType } from '@/types';
+import { FormStatus, ResetPasswordForm as ResetPasswordFormType } from '@/types';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useState, Suspense } from 'react';
 import { useForm } from 'react-hook-form';
-
-type FormStatus = 'idle' | 'loading' | 'success' | 'error';
 
 export default function ResetPasswordForm() {
 	const [status, setStatus] = useState<FormStatus>('idle');

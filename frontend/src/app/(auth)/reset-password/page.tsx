@@ -1,6 +1,9 @@
 import ResetPasswordForm from '@/components/ResetPasswordForm';
 import { Suspense } from 'react';
 
+export const dynamic = 'force-static';
+export const revalidate = 300; // Пересборка каждые 5 минут
+
 export default function ResetPassword() {
 	return (
 		<section className="nw-auth-section">

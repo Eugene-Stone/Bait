@@ -23,8 +23,14 @@ $nb-shadow-hover: 2px 2px 0px $nb-black;
 $nb-border: 3px solid $nb-black;
 $nb-border-thick: 4px solid $nb-black;
 
-$font-mono: 'Courier New', 'IBM Plex Mono', 'JetBrains Mono', monospace;
+@import url('https://fonts.googleapis.com/css2?family=Kurale&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=JetBrains+Mono:wght@100;200;300;400;500;600;700;800&display=swap');
+
+$font-mono: 'Kurale', serif;
 $font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+// $font-mono: 'Courier New', 'IBM Plex Mono', 'JetBrains Mono', monospace;
+// $font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
 $nb-transition: 0.15s ease;
 $nb-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);

@@ -54,8 +54,8 @@ const queryPage = buildQuery({
 export async function getHomePageData() {
 	try {
 		const response = await fetch(`${BACKEND_URL}/api/homepage?${queryPage}`, {
-			cache: 'no-store', // Отключение кеша
-			// next: { revalidate: 60 },
+			// cache: 'no-store', // Отключение кеша
+			next: { revalidate: 60 },
 		});
 
 		if (response.status === 404) {

@@ -6,6 +6,37 @@ import {
 } from '@/types';
 import { stringify } from 'querystring';
 
+// export async function getMeClient() {
+// 	try {
+// 		const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/me`, {
+// 			method: 'GET',
+// 			credentials: 'include', // Браузер автоматически прикрепит куки к запросу
+// 			headers: {
+// 				'Content-Type': 'application/json',
+// 			},
+// 		});
+
+// 		if (!response.ok) {
+// 			return null;
+// 		}
+
+// 		return await response.json();
+// 	} catch (error) {
+// 		console.error('Failed to fetch user on client:', error);
+// 		return null;
+// 	}
+// }
+
+export async function getMeClient() {
+	try {
+		const response = await fetch('/api/me');
+		if (!response.ok) return null;
+		return await response.json();
+	} catch {
+		return null;
+	}
+}
+
 export async function registerUser(data: RegisterRequest) {
 	const response = await fetch('/api/register', {
 		method: 'POST',

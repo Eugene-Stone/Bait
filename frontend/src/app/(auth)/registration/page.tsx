@@ -1,12 +1,10 @@
 'use client';
 import { registerUser } from '@/api/auth-client';
-import { RegisterRequest } from '@/types';
+import { FormStatus, RegisterRequest } from '@/types';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-
-type FormStatus = 'idle' | 'loading' | 'success' | 'error';
 
 export default function Registration() {
 	const [status, setStatus] = useState<FormStatus>('idle');

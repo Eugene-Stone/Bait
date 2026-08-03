@@ -1,5 +1,8 @@
 import Link from 'next/link';
 
+export const dynamic = 'force-static';
+export const revalidate = 60; // Пересборка каждые 60 секунд
+
 export default function NotFound() {
 	return (
 		<section className="sect-404">

@@ -8,6 +8,8 @@ const nextConfig: NextConfig = {
 	images: {
 		unoptimized: true,
 	},
+	// Разрешает HMR и запросы ресурсов с любых локальных IP
+	allowedDevOrigins: ['*.local', '192.168.*.*', '10.*.*.*'],
 };
 
 export default nextConfig;
