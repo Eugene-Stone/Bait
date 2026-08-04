@@ -25,11 +25,16 @@ export default async function Reviews() {
 	const { data: reviews }: { data: ReviewType[] } = reviewsData;
 
 	return reviews.length > 0 ? (
-		<ul className="reviews__list">
-			{reviews.map((review, i) => {
-				return <Review key={i} tagName="li" user={user} review={review} />;
-			})}
-		</ul>
+		<>
+			<h3 className="nw-comments-title" style={{ marginTop: 0 }}>
+				Ваши отзывы
+			</h3>
+			<ul className="reviews__list">
+				{reviews.map((review, i) => {
+					return <Review key={i} tagName="li" user={user} review={review} />;
+				})}
+			</ul>
+		</>
 	) : (
 		<p>
 			Ты пока не оставил ни одного отзыва. Запишись на курс, пройди обучение и поделись

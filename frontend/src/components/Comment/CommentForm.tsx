@@ -10,7 +10,7 @@ import { CommentDataResponse, CourseExtended, FormStatus } from '@/types';
 import { Comment as CommentType } from '@backend-types/comment';
 
 import { User } from '@backend-types/user';
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -19,11 +19,12 @@ import { clearCommentEditableId } from '@/redux/slices/commentSlice';
 type Props = {
 	user: User;
 	course: CourseExtended;
+	setOpen?: Dispatch<SetStateAction<boolean>>;
 };
 type FormValues = {
 	comment: string;
 };
-export default function CommentForm({ user, course }: Props) {
+export default function CommentForm({ user, course, setOpen }: Props) {
 	const [status, setStatus] = useState<FormStatus>('idle');
 	const [serverError, setServerError] = useState('');
 
@@ -105,11 +106,14 @@ export default function CommentForm({ user, course }: Props) {
 				const response = await editComment(commentData, commentEditableId || '');
 
 				setStatus('success');
-				router.refresh(); // Запрашивает обновленные Server Components у сервера
+				// router.refresh(); // Запрашивает обновленные Server Components у сервера
 				setTimeout(() => {
 					reset({
 						comment: '',
 					});
+
+					setOpen?.(false);
+					router.refresh(); // Запрашивает обновленные Server Components у сервера
 				}, 500);
 			} catch (error) {
 				if (error instanceof Error) {
@@ -177,6 +181,7 @@ export default function CommentForm({ user, course }: Props) {
 										comment: '',
 									});
 									dispatch(clearCommentEditableId());
+									setOpen?.(false);
 								}}>
 								Отмена
 							</button>

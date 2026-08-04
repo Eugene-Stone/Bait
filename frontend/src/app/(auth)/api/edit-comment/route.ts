@@ -38,8 +38,9 @@ export async function PUT(request: Request) {
 		});
 	}
 
-	// Сбрасываем кэш страницы курса
+	// Сбрасываем кэш страниц
 	revalidatePath('/courses/[slug]', 'page');
+	revalidatePath('/profile/comments', 'page');
 
 	return NextResponse.json(data);
 }

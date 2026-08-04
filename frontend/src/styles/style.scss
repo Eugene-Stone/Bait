@@ -2616,10 +2616,32 @@ body.is-dark {
 }
 
 
+.edit-comment-line {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+
+	.delete {
+		transition: 0.15s;
+		&:hover {
+			color: rgb(255, 136, 0);
+		}
+	}
+}
 
 .edit-btn {
 	color: rgb(255, 136, 0);
 	&:hover {
 		text-decoration: underline;
+	}
+}
+
+[role="dialog"] {
+	&[class*="Modal-"]{
+		#comment-form-area {
+			margin-top: 0;
+			padding-top: 0;
+			border: none;
+		}
 	}
 }
