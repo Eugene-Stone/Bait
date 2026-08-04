@@ -148,6 +148,7 @@ export async function leaveComment(commentData: CommentDataRequest) {
 
 	return data;
 }
+
 export async function editComment(commentData: CommentDataRequest, commentId: string) {
 	const response = await fetch('/api/edit-comment', {
 		method: 'PUT',
@@ -160,6 +161,23 @@ export async function editComment(commentData: CommentDataRequest, commentId: st
 	const data = await response.json();
 	if (!response.ok) {
 		throw new Error(data.error?.message ?? 'edit-comment error');
+	}
+
+	return data;
+}
+export async function deleteComment(commentId: string) {
+	const response = await fetch('/api/delete-comment', {
+		method: 'DELETE',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(commentId),
+	});
+
+	const text = await response.text();
+	const data = text ? JSON.parse(text) : null;
+	if (!response.ok) {
+		throw new Error(data.error?.message ?? 'delete-comment error');
 	}
 
 	return data;

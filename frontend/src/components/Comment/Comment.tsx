@@ -5,6 +5,8 @@ import { User } from '@backend-types/user';
 import Modal from '../Modal';
 import { Course } from '@backend-types/course';
 import { CourseExtended } from '@/types';
+import { deleteComment } from '@/api/auth-client';
+import CommentDeleteButton from './CommentDeleteButton';
 
 type Props = {
 	user?: User;
@@ -26,9 +28,7 @@ export default function Comment({ user, comment }: Props) {
 			{comment.user?.username === user?.username && (
 				<div className="edit-comment-line">
 					<CommentEditButton user={user} comment={comment} />
-					<button className="delete" type="button">
-						Удалить
-					</button>
+					<CommentDeleteButton id={comment.documentId!} />
 				</div>
 			)}
 		</li>

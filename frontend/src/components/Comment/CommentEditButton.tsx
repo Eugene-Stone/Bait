@@ -27,7 +27,7 @@ export default function CommentEditButton({ user, comment }: Props) {
 
 	const { commentEditableId } = useSelector((state: RootState) => state.commentReducer);
 
-	console.log('commentEditableId', commentEditableId);
+	// console.log('commentEditableId', commentEditableId);
 	// console.log('comment', comment);
 	// console.log('user', user);
 	// console.log('course', course);
