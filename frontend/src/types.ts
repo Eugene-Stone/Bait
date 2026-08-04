@@ -1,3 +1,4 @@
+import { Comment } from '@backend-types/comment';
 import { Course } from '@backend-types/course';
 
 export type NavigationItemType = 'INTERNAL' | 'EXTERNAL' | 'WRAPPER';
@@ -79,11 +80,18 @@ export type CommentDataRequest = {
 	title: string;
 	text: string;
 	user: number;
-	course: number;
+	course: string;
+};
+
+export type CommentDataResponse = {
+	data: Comment;
 };
 
 export type FormStatus = 'idle' | 'loading' | 'success' | 'error';
 
+export interface CommentExtended extends Comment {
+	documentId?: string;
+}
 export interface CourseExtended extends Course {
 	documentId?: string;
 }

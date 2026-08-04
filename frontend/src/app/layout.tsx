@@ -11,6 +11,7 @@ import ThemeContextProvider from '@/context/ThemeContext';
 
 import '../styles/style.scss';
 import '../styles/dark.scss';
+import ProviderRedux from '@/redux/ProviderRedux';
 
 const themeInitializerScript = `
   (function() {
@@ -86,20 +87,22 @@ export default function RootLayout({
 				<script dangerouslySetInnerHTML={{ __html: themeInitializerScript }} />
 
 				<ThemeContextProvider>
-					<div className="wrapper">
-						{/* <ReloadToTop /> */}
-						<Header />
+					<ProviderRedux>
+						<div className="wrapper">
+							{/* <ReloadToTop /> */}
+							<Header />
 
-						<LoadingContextProvider className="layout">
-							<main className="page-wrap">
-								{children}
-								{/* <ViewTransition>{children}</ViewTransition> */}
-							</main>
-						</LoadingContextProvider>
+							<LoadingContextProvider className="layout">
+								<main className="page-wrap">
+									{children}
+									{/* <ViewTransition>{children}</ViewTransition> */}
+								</main>
+							</LoadingContextProvider>
 
-						<Footer />
-						<ButtonScrollTop />
-					</div>
+							<Footer />
+							<ButtonScrollTop />
+						</div>
+					</ProviderRedux>
 				</ThemeContextProvider>
 			</body>
 		</html>

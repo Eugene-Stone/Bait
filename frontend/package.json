@@ -10,11 +10,13 @@
 		"lint": "eslint"
 	},
 	"dependencies": {
+		"@reduxjs/toolkit": "^2.12.0",
 		"next": "16.2.10",
 		"qs": "^6.15.3",
 		"react": "19.2.4",
 		"react-dom": "19.2.4",
 		"react-hook-form": "^7.82.0",
+		"react-redux": "^9.3.0",
 		"react-scroll": "^1.9.3",
 		"swiper": "^14.0.6",
 		"yet-another-react-lightbox": "^3.32.1"

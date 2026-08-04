@@ -126,7 +126,7 @@ export default async function CourseBySlug({ params }: { params: Promise<{ slug:
 					<ul className="nw-comments-list">
 						{comments.map((comment, i) => {
 							if (comment.isApproved) {
-								return <Comment key={i} comment={comment} />;
+								return <Comment key={i} user={user} comment={comment} />;
 							}
 						})}
 					</ul>

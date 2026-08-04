@@ -148,3 +148,19 @@ export async function leaveComment(commentData: CommentDataRequest) {
 
 	return data;
 }
+export async function editComment(commentData: CommentDataRequest, commentId: string) {
+	const response = await fetch('/api/edit-comment', {
+		method: 'PUT',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({ data: { ...commentData, isApproved: false }, id: commentId }),
+	});
+
+	const data = await response.json();
+	if (!response.ok) {
+		throw new Error(data.error?.message ?? 'edit-comment error');
+	}
+
+	return data;
+}

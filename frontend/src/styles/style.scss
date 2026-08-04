@@ -2614,3 +2614,12 @@ body.is-dark {
 		background-color: $nb-pink;
 	}
 }
+
+
+
+.edit-btn {
+	color: rgb(255, 136, 0);
+	&:hover {
+		text-decoration: underline;
+	}
+}

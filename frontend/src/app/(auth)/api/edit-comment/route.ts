@@ -1,0 +1,45 @@
+import { revalidatePath } from 'next/cache';
+import { cookies } from 'next/headers';
+import { NextResponse } from 'next/server';
+
+export async function PUT(request: Request) {
+	const body = await request.json();
+	const token = (await cookies()).get('jwt')?.value;
+
+	if (!token) {
+		return NextResponse.json(
+			{
+				error: {
+					message: 'Необходимо авторизоваться',
+				},
+			},
+			{
+				status: 401,
+			},
+		);
+	}
+
+	const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/comments/${body.id}`, {
+		method: 'PUT',
+		headers: {
+			Authorization: `Bearer ${token}`,
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({
+			data: body.data,
+		}),
+	});
+
+	const data = await response.json();
+
+	if (!response.ok) {
+		return NextResponse.json(data, {
+			status: response.status,
+		});
+	}
+
+	// Сбрасываем кэш страницы курса
+	revalidatePath('/courses/[slug]', 'page');
+
+	return NextResponse.json(data);
+}

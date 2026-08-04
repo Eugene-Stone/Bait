@@ -1,10 +1,20 @@
 'use client';
-import { leaveComment } from '@/api/auth-client';
-import { CourseExtended, FormStatus } from '@/types';
-import { Course } from '@backend-types/course';
+
+import { useRouter } from 'next/navigation';
+
+import { editComment, leaveComment } from '@/api/auth-client';
+import request from '@/api/request';
+import { BACKEND_URL } from '@/constants';
+import { RootState } from '@/redux/store';
+import { CommentDataResponse, CourseExtended, FormStatus } from '@/types';
+import { Comment as CommentType } from '@backend-types/comment';
+
 import { User } from '@backend-types/user';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { clearCommentEditableId } from '@/redux/slices/commentSlice';
 
 type Props = {
 	user: User;
@@ -17,8 +27,13 @@ export default function CommentForm({ user, course }: Props) {
 	const [status, setStatus] = useState<FormStatus>('idle');
 	const [serverError, setServerError] = useState('');
 
-	// console.log(user);
-	// console.log(course);
+	// const [defaultComment, setDefaultComment] = useState('');
+	const dispatch = useDispatch();
+	const { statusEditable, commentEditableId } = useSelector(
+		(state: RootState) => state.commentReducer,
+	);
+
+	const router = useRouter();
 
 	const {
 		register,
@@ -27,7 +42,51 @@ export default function CommentForm({ user, course }: Props) {
 		formState: { errors, isValid },
 	} = useForm<FormValues>({
 		mode: 'onChange',
+		defaultValues: {
+			comment: '',
+		},
 	});
+
+	useEffect(() => {
+		async function fetchComment(commentId: string | null) {
+			if (commentId === null) {
+				// setDefaultComment('');
+				return;
+			}
+
+			try {
+				const response = await fetch(`${BACKEND_URL}/api/comments/${commentId}`, {
+					method: 'GET',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+				});
+
+				if (!response.ok) {
+					const errorData = await response.json();
+					throw new Error(errorData.error?.message ?? 'Failed to fetch comment');
+				}
+
+				const data: CommentDataResponse = await response.json();
+				const { data: comment } = data;
+
+				console.log(comment.text);
+
+				// setDefaultComment(comment.text || '');
+				reset({
+					comment: comment.text || '',
+				});
+
+				return comment;
+			} catch (error) {
+				console.error(error);
+
+				throw new Error('Failed to fetch comment');
+			}
+		}
+
+		fetchComment(commentEditableId);
+	}, [commentEditableId, reset]);
 
 	async function onSubmit(data: FormValues) {
 		setServerError('');
@@ -37,25 +96,47 @@ export default function CommentForm({ user, course }: Props) {
 			title: course.title!,
 			text: data.comment,
 			user: user.id!,
-			course: course.id!,
+			course: course.documentId!,
 		};
-
 		console.log(commentData);
 
-		try {
-			const response = await leaveComment(commentData);
+		if (statusEditable) {
+			try {
+				const response = await editComment(commentData, commentEditableId || '');
 
-			setStatus('success');
-			setTimeout(() => {
-				reset();
-			}, 500);
-		} catch (error) {
-			if (error instanceof Error) {
-				setServerError(error.message);
-				console.log(error.message);
+				setStatus('success');
+				router.refresh(); // Запрашивает обновленные Server Components у сервера
+				setTimeout(() => {
+					reset({
+						comment: '',
+					});
+				}, 500);
+			} catch (error) {
+				if (error instanceof Error) {
+					setServerError(error.message);
+					console.log(error.message);
+				}
+
+				setStatus('error');
 			}
+		} else {
+			try {
+				const response = await leaveComment(commentData);
 
-			setStatus('error');
+				setStatus('success');
+				setTimeout(() => {
+					reset({
+						comment: '',
+					});
+				}, 500);
+			} catch (error) {
+				if (error instanceof Error) {
+					setServerError(error.message);
+					console.log(error.message);
+				}
+
+				setStatus('error');
+			}
 		}
 	}
 
@@ -91,7 +172,12 @@ export default function CommentForm({ user, course }: Props) {
 							<button
 								className="nw-comment-submit-button cancel"
 								type="button"
-								onClick={() => reset()}>
+								onClick={() => {
+									reset({
+										comment: '',
+									});
+									dispatch(clearCommentEditableId());
+								}}>
 								Отмена
 							</button>
 						)}
