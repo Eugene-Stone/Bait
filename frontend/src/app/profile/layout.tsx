@@ -23,7 +23,8 @@ export default async function RootLayout({
 						<Menu />
 					</aside>
 					<main className="nw-profile-content">
-						<ViewTransition>{children}</ViewTransition>
+						{/* <ViewTransition>{children}</ViewTransition> */}
+						{children}
 					</main>
 				</div>
 			</div>

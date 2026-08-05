@@ -1,8 +1,6 @@
 import { cookies } from 'next/headers';
-import { cache } from 'react';
 
-// Заворачиваем функцию в React cache()
-export const getMe = cache(async () => {
+export async function getMe() {
 	const cookieStore = await cookies();
 	const token = cookieStore.get('jwt')?.value;
 
@@ -27,4 +25,4 @@ export const getMe = cache(async () => {
 		console.error('Failed to fetch user:', error);
 		return null;
 	}
-});
+}

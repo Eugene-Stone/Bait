@@ -1,13 +1,13 @@
 import { getMe } from '@/api/auth-server';
 import Comment from '@/components/Comment';
-import Modal from '@/components/Modal';
 import { BACKEND_URL } from '@/constants';
 import { Comment as CommentType } from '@backend-types/comment';
 import { User } from '@backend-types/user';
+import { redirect } from 'next/navigation';
 
-async function getComments(user: User) {
+async function getComments(userId: number) {
 	const response = await fetch(
-		`${BACKEND_URL}/api/comments?filters[user][id][$eq]=${user.id}&populate=*`,
+		`${BACKEND_URL}/api/comments?filters[user][id][$eq]=${userId}&populate=*`,
 		{
 			next: { revalidate: 600 },
 		},
@@ -20,10 +20,14 @@ async function getComments(user: User) {
 }
 
 export default async function Comments() {
-	const user: User = await getMe();
-	const commentsData = await getComments(user);
+	const user = await getMe();
 
-	const { data: comments }: { data: CommentType[] } = commentsData;
+	if (!user) {
+		redirect('/login');
+	}
+
+	const commentsData = await getComments(user.id);
+	const comments: CommentType[] = commentsData.data ?? [];
 
 	return comments.length > 0 ? (
 		<>
@@ -32,7 +36,7 @@ export default async function Comments() {
 			</h3>
 			<ul className="nw-comments-list">
 				{comments.map((comment, i) => {
-					return <Comment key={i} user={user} comment={comment} />;
+					return <Comment key={i} user={user as User} comment={comment} />;
 				})}
 			</ul>
 		</>

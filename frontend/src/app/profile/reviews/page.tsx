@@ -3,10 +3,11 @@ import Review from '@/components/Review';
 import { BACKEND_URL } from '@/constants';
 import { Review as ReviewType } from '@backend-types/review';
 import { User } from '@backend-types/user';
+import { redirect } from 'next/navigation';
 
-async function getReviews(user: User) {
+async function getReviews(userId: number) {
 	const response = await fetch(
-		`${BACKEND_URL}/api/reviews?filters[user][id][$eq]=${user.id}&populate=*`,
+		`${BACKEND_URL}/api/reviews?filters[user][id][$eq]=${userId}&populate=*`,
 		{
 			next: { revalidate: 600 },
 		},
@@ -19,10 +20,14 @@ async function getReviews(user: User) {
 }
 
 export default async function Reviews() {
-	const user: User = await getMe();
-	const reviewsData = await getReviews(user);
+	const user = await getMe();
 
-	const { data: reviews }: { data: ReviewType[] } = reviewsData;
+	if (!user) {
+		redirect('/login');
+	}
+
+	const reviewsData = await getReviews(user.id);
+	const reviews: ReviewType[] = reviewsData.data ?? [];
 
 	return reviews.length > 0 ? (
 		<>
@@ -31,7 +36,7 @@ export default async function Reviews() {
 			</h3>
 			<ul className="reviews__list">
 				{reviews.map((review, i) => {
-					return <Review key={i} tagName="li" user={user} review={review} />;
+					return <Review key={i} tagName="li" user={user as User} review={review} />;
 				})}
 			</ul>
 		</>

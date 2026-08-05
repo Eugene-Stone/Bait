@@ -2172,11 +2172,27 @@ body.is-dark {
 	background: $nb-white;
 	box-shadow: $nb-shadow-sm;
 }
+.nw-blog-section {
+	.nw-comment-item {
+		.nw-comment-course {
+			display: none;
+		}
+	}
+}
+
+.nw-profile-content {
+	.nw-comment-item {
+		.nw-comment-author {
+			display: none;
+		}
+	}
+}
 
 .nw-comment-meta {
 	display: flex;
 	justify-content: space-between;
-	align-items: baseline;
+	// align-items: baseline;
+	align-items: flex-start;
 	margin-bottom: 12px;
 }
 
@@ -2193,6 +2209,7 @@ body.is-dark {
 	background: $nb-black;
 	color: $nb-white;
 	padding: 2px 8px;
+	margin-left: 15px;
 }
 
 .nw-comment-text {

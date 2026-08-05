@@ -25,7 +25,7 @@ export default function CommentEditButton({ user, comment }: Props) {
 	const dispatch = useDispatch();
 	// dispatch(clearCommentEditableId());
 
-	const { commentEditableId } = useSelector((state: RootState) => state.commentReducer);
+	// const { commentEditableId } = useSelector((state: RootState) => state.commentReducer);
 
 	// console.log('commentEditableId', commentEditableId);
 	// console.log('comment', comment);

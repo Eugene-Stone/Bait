@@ -3,18 +3,24 @@
 import * as Dialog from '@radix-ui/react-dialog';
 
 import styles from './Modal.module.scss';
-import { useEffect, useLayoutEffect, useState } from 'react';
 
 type ModalProps = {
 	title: string;
 	trigger: React.ReactNode;
 	children: React.ReactNode;
-	open: boolean;
+
+	open?: boolean;
 	onOpenChange?: (open: boolean) => void;
 };
 
 export default function Modal({ title, trigger, open, onOpenChange, children }: ModalProps) {
+	const dialogProps = {
+		onOpenChange,
+		...(open !== undefined && { open }),
+	};
+
 	return (
+		// <Dialog.Root {...dialogProps}>
 		<Dialog.Root open={open} onOpenChange={onOpenChange}>
 			<Dialog.Trigger asChild>{trigger}</Dialog.Trigger>
 

@@ -7,6 +7,8 @@ import { Course } from '@backend-types/course';
 import { CourseExtended } from '@/types';
 import { deleteComment } from '@/api/auth-client';
 import CommentDeleteButton from './CommentDeleteButton';
+import Link from 'next/link';
+import { BACKEND_URL } from '@/constants';
 
 type Props = {
 	user?: User;
@@ -19,6 +21,9 @@ export default function Comment({ user, comment }: Props) {
 		<li className="nw-comment-item">
 			<div className="nw-comment-meta">
 				<span className="nw-comment-author">{comment.user?.username}</span>
+				<Link className="nw-comment-course" href={`/courses/${comment.course?.slug}`}>
+					<strong>{comment.course?.title}</strong>
+				</Link>
 				<span className="nw-comment-date">
 					{comment.isApproved ? formattedDate : 'На проверке'}
 				</span>
