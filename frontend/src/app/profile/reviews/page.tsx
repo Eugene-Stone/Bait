@@ -1,5 +1,6 @@
 import { getMe } from '@/api/auth-server';
 import Review from '@/components/Review';
+import ReviewForm from '@/components/Review/ReviewForm';
 import { BACKEND_URL } from '@/constants';
 import { Review as ReviewType } from '@backend-types/review';
 import { User } from '@backend-types/user';
@@ -29,21 +30,29 @@ export default async function Reviews() {
 	const reviewsData = await getReviews(user.id);
 	const reviews: ReviewType[] = reviewsData.data ?? [];
 
-	return reviews.length > 0 ? (
+	return (
 		<>
-			<h3 className="nw-comments-title" style={{ marginTop: 0 }}>
-				Ваши отзывы
-			</h3>
-			<ul className="reviews__list">
-				{reviews.map((review, i) => {
-					return <Review key={i} tagName="li" user={user as User} review={review} />;
-				})}
-			</ul>
+			{reviews.length > 0 ? (
+				<>
+					<h3 className="nw-comments-title" style={{ marginTop: 0 }}>
+						Ваши отзывы
+					</h3>
+					<ul className="reviews__list">
+						{reviews.map((review, i) => {
+							return (
+								<Review key={i} tagName="li" user={user as User} review={review} />
+							);
+						})}
+					</ul>
+				</>
+			) : (
+				<p>
+					Ты пока не оставил ни одного отзыва. Запишись на курс, пройди обучение и
+					поделись впечатлениями!
+				</p>
+			)}
+
+			<ReviewForm user={user as User} />
 		</>
-	) : (
-		<p>
-			Ты пока не оставил ни одного отзыва. Запишись на курс, пройди обучение и поделись
-			впечатлениями!
-		</p>
 	);
 }

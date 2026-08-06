@@ -83,6 +83,13 @@ export type CommentDataRequest = {
 	course: string;
 };
 
+export type ReviewDataRequest = {
+	title: string;
+	rating: number;
+	text: string;
+	user: number;
+};
+
 export type CommentDataResponse = {
 	data: Comment;
 };

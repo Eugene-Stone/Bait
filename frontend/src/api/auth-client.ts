@@ -3,6 +3,7 @@ import {
 	ForgotPasswordRequest,
 	RegisterRequest,
 	ResetPasswordRequest,
+	ReviewDataRequest,
 } from '@/types';
 import { stringify } from 'querystring';
 
@@ -176,8 +177,47 @@ export async function deleteComment(commentId: string) {
 
 	const text = await response.text();
 	const data = text ? JSON.parse(text) : null;
+
 	if (!response.ok) {
 		throw new Error(data.error?.message ?? 'delete-comment error');
+	}
+
+	return data;
+}
+
+export async function leaveReview(reviewData: ReviewDataRequest) {
+	const response = await fetch('/api/leave-review', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({ data: reviewData }), // Оборачиваем в data для Strapi
+	});
+
+	console.log(reviewData);
+
+	const data = await response.json();
+	if (!response.ok) {
+		throw new Error(data.error?.message ?? 'leave-Review error');
+	}
+
+	return data;
+}
+
+export async function deleteReview(reviewId: string) {
+	const response = await fetch('/api/delete-review', {
+		method: 'DELETE',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(reviewId),
+	});
+
+	const text = await response.text();
+	const data = text ? JSON.parse(text) : null;
+
+	if (!response.ok) {
+		throw new Error(data.error?.message ?? 'delete-review error');
 	}
 
 	return data;
