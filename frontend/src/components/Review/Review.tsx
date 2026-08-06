@@ -2,6 +2,7 @@ import { Review as ReviewType } from '@backend-types/review';
 import './index.scss';
 import { User } from '@backend-types/user';
 import ReviewDeleteButton from './ReviewDeleteButton';
+import ReviewEditButton from './ReviewEditButton';
 
 type Props = {
 	user?: User;
@@ -29,9 +30,7 @@ export default function Review({ tagName = 'div', user, review }: Props) {
 				{user && (
 					<>
 						<br />
-						<button className="edit" type="button">
-							Изменить отзыв
-						</button>
+						<ReviewEditButton reviewId={review.documentId!} />
 					</>
 				)}
 			</div>

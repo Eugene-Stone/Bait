@@ -2,11 +2,11 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
 type CommentState = {
-	statusEditable: boolean;
+	statusEditableComment: boolean;
 	commentEditableId: string | null;
 };
 const initialState: CommentState = {
-	statusEditable: false,
+	statusEditableComment: false,
 	commentEditableId: null,
 };
 
@@ -17,12 +17,12 @@ export const commentSlice = createSlice({
 	reducers: {
 		addCommentEditableId: (state, action: PayloadAction<string>) => {
 			state.commentEditableId = action.payload;
-			state.statusEditable = true;
+			state.statusEditableComment = true;
 		},
 
 		clearCommentEditableId: (state) => {
 			state.commentEditableId = null;
-			state.statusEditable = false;
+			state.statusEditableComment = false;
 		},
 	},
 });

@@ -1,5 +1,6 @@
 import { Comment } from '@backend-types/comment';
 import { Course } from '@backend-types/course';
+import { Review } from '@backend-types/review';
 
 export type NavigationItemType = 'INTERNAL' | 'EXTERNAL' | 'WRAPPER';
 
@@ -92,6 +93,9 @@ export type ReviewDataRequest = {
 
 export type CommentDataResponse = {
 	data: Comment;
+};
+export type ReviewDataResponse = {
+	data: Review;
 };
 
 export type FormStatus = 'idle' | 'loading' | 'success' | 'error';

@@ -1,10 +1,15 @@
 'use client';
-import { leaveReview } from '@/api/auth-client';
-import { FormStatus } from '@/types';
+import { editReview, leaveReview } from '@/api/auth-client';
+import { BACKEND_URL } from '@/constants';
+import { RootState } from '@/redux/store';
+import { FormStatus, ReviewDataResponse } from '@/types';
 import { User } from '@backend-types/user';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { clearReviewEditableId } from '@/redux/slices/reviewSlice';
 
 type Props = {
 	user: User;
@@ -18,6 +23,12 @@ type FormValues = {
 export default function ReviewForm({ user }: Props) {
 	const [status, setStatus] = useState<FormStatus>();
 	const [serverError, setServerError] = useState('');
+	const formRef = useRef<HTMLFormElement | null>(null);
+	const dispatch = useDispatch();
+
+	const { statusEditableReview, reviewEditableId } = useSelector(
+		(state: RootState) => state.reviewReducer,
+	);
 
 	const router = useRouter();
 
@@ -32,6 +43,59 @@ export default function ReviewForm({ user }: Props) {
 		defaultValues: {},
 	});
 
+	useEffect(() => {
+		// Clean up editing state when component unmounts
+		return () => {
+			dispatch(clearReviewEditableId());
+		};
+	}, [dispatch]);
+
+	useEffect(() => {
+		if (statusEditableReview && formRef.current) {
+			formRef.current.scrollIntoView({
+				behavior: 'smooth', // Smooth animation
+				block: 'start', // Align to top of viewport
+			});
+		}
+	}, [reviewEditableId, statusEditableReview]);
+
+	useEffect(() => {
+		async function fetchReviewEditable(reviewId: string | null) {
+			if (reviewId === null) return;
+
+			try {
+				const response = await fetch(`${BACKEND_URL}/api/reviews/${reviewId}`, {
+					method: 'GET',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+				});
+
+				if (!response.ok) {
+					const errorData = await response.json();
+					throw new Error(errorData.error?.message ?? 'Failed to fetch comment');
+				}
+
+				const reviewData: ReviewDataResponse = await response.json();
+				const review = reviewData.data || {};
+
+				reset({
+					title: review.title,
+					rating: review.rating,
+					text: review.text,
+				});
+
+				return review;
+			} catch (error) {
+				if (error instanceof Error) {
+					console.log(error.message);
+				}
+			}
+		}
+
+		fetchReviewEditable(reviewEditableId);
+	}, [reviewEditableId, reset]);
+
 	async function onSubmit(data: FormValues) {
 		setServerError('');
 		setStatus('loading');
@@ -45,33 +109,64 @@ export default function ReviewForm({ user }: Props) {
 
 		console.log(reviewData);
 
-		try {
-			const response = await leaveReview(reviewData);
+		if (statusEditableReview) {
+			try {
+				const response = await editReview(reviewData, reviewEditableId!);
 
-			setStatus('success');
-			setTimeout(() => {
-				reset({
-					title: '',
-					rating: NaN,
-					text: '',
-				});
+				setStatus('success');
+				setTimeout(() => {
+					dispatch(clearReviewEditableId());
+					reset({
+						title: '',
+						rating: NaN,
+						text: '',
+					});
 
-				router.refresh();
-				setStatus('idle');
-			}, 500);
-		} catch (error) {
-			if (error instanceof Error) {
-				setServerError(error.message);
-				console.log(error.message);
+					router.refresh();
+					setStatus('idle');
+				}, 500);
+			} catch (error) {
+				if (error instanceof Error) {
+					setServerError(error.message);
+					console.log(error.message);
+				}
+
+				setStatus('error');
 			}
+		} else {
+			try {
+				const response = await leaveReview(reviewData);
 
-			setStatus('error');
+				setStatus('success');
+				setTimeout(() => {
+					reset({
+						title: '',
+						rating: NaN,
+						text: '',
+					});
+
+					router.refresh();
+					setStatus('idle');
+				}, 500);
+			} catch (error) {
+				if (error instanceof Error) {
+					setServerError(error.message);
+					console.log(error.message);
+				}
+
+				setStatus('error');
+			}
 		}
 	}
 
 	return (
 		<form
-			className={status === 'loading' ? 'nw-auth-form sending' : 'nw-auth-form'}
+			ref={formRef}
+			className={
+				status === 'loading'
+					? 'nw-auth-form nw-review-form sending'
+					: 'nw-auth-form nw-review-form'
+			}
 			onSubmit={handleSubmit(onSubmit)}>
 			<h3>Оставить отзыв</h3>
 			<div className="nw-auth-group">
@@ -137,7 +232,12 @@ export default function ReviewForm({ user }: Props) {
 						className="nw-auth-button cancel"
 						type="button"
 						onClick={() => {
-							reset();
+							dispatch(clearReviewEditableId());
+							reset({
+								title: '',
+								rating: NaN,
+								text: '',
+							});
 						}}>
 						Отмена
 					</button>

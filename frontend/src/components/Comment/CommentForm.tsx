@@ -30,7 +30,7 @@ export default function CommentForm({ user, course, setOpen }: Props) {
 
 	// const [defaultComment, setDefaultComment] = useState('');
 	const dispatch = useDispatch();
-	const { statusEditable, commentEditableId } = useSelector(
+	const { statusEditableComment, commentEditableId } = useSelector(
 		(state: RootState) => state.commentReducer,
 	);
 
@@ -49,7 +49,7 @@ export default function CommentForm({ user, course, setOpen }: Props) {
 	});
 
 	useEffect(() => {
-		async function fetchComment(commentId: string | null) {
+		async function fetchCommentEditable(commentId: string | null) {
 			if (commentId === null) {
 				// setDefaultComment('');
 				return;
@@ -86,7 +86,7 @@ export default function CommentForm({ user, course, setOpen }: Props) {
 			}
 		}
 
-		fetchComment(commentEditableId);
+		fetchCommentEditable(commentEditableId);
 	}, [commentEditableId, reset]);
 
 	async function onSubmit(data: FormValues) {
@@ -101,7 +101,7 @@ export default function CommentForm({ user, course, setOpen }: Props) {
 		};
 		console.log(commentData);
 
-		if (statusEditable) {
+		if (statusEditableComment) {
 			try {
 				const response = await editComment(commentData, commentEditableId || '');
 

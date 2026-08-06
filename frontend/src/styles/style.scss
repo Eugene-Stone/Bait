@@ -2662,3 +2662,9 @@ body.is-dark {
 		}
 	}
 }
+
+
+/* Add top offset for scrollIntoView */
+.nw-review-form {
+	scroll-margin-top: 60px;
+}
