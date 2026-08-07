@@ -2,12 +2,15 @@
 
 import { deleteReview } from '@/api/auth-client';
 import { useRouter } from 'next/navigation';
+import Modal from '../Modal';
+import { useState } from 'react';
 
 type Props = {
 	id: string;
 };
 export default function ReviewDeleteButton({ id }: Props) {
 	const router = useRouter();
+	const [isOpen, setIsOpen] = useState(false);
 
 	async function removeReview(value: string) {
 		try {
@@ -23,16 +26,37 @@ export default function ReviewDeleteButton({ id }: Props) {
 		}
 	}
 
-	function handleDelete() {
-		if (confirm('Вы уверены?')) {
-			removeReview(id);
-			// console.log('удалено', id);
-		}
-	}
+	const handleDelete = () => {
+		removeReview(id);
+		setIsOpen(false);
+		// console.log('удалено', id);
+	};
 
 	return (
-		<button className="delete" type="button" onClick={handleDelete}>
-			X
-		</button>
+		<Modal
+			title="Удалить отзыв"
+			open={isOpen}
+			onOpenChange={(value) => {
+				setIsOpen(value);
+			}}
+			trigger={
+				<button className="delete" type="button" onClick={() => setIsOpen(true)}>
+					X
+				</button>
+			}>
+			<p>Вы уверены, что хотите удалить этот отзыв?</p>
+
+			<div className="modal-actions" style={{ display: 'flex', gap: 10 }}>
+				<button
+					className="nw-comment-submit-button"
+					type="button"
+					onClick={() => setIsOpen(false)}>
+					Отмена
+				</button>
+				<button className="nw-comment-submit-button" type="button" onClick={handleDelete}>
+					Удалить
+				</button>
+			</div>
+		</Modal>
 	);
 }

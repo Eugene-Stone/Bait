@@ -3,11 +3,9 @@
 import { useRouter } from 'next/navigation';
 
 import { editComment, leaveComment } from '@/api/auth-client';
-import request from '@/api/request';
 import { BACKEND_URL } from '@/constants';
 import { RootState } from '@/redux/store';
 import { CommentDataResponse, CourseExtended, FormStatus } from '@/types';
-import { Comment as CommentType } from '@backend-types/comment';
 
 import { User } from '@backend-types/user';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';

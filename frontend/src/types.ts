@@ -1,6 +1,8 @@
 import { Comment } from '@backend-types/comment';
 import { Course } from '@backend-types/course';
+import { Media } from '@backend-types/media';
 import { Review } from '@backend-types/review';
+import { User } from '@backend-types/user';
 
 export type NavigationItemType = 'INTERNAL' | 'EXTERNAL' | 'WRAPPER';
 
@@ -73,8 +75,12 @@ export interface ResetPasswordForm {
 	password: string;
 	passwordConfirmation: string;
 }
+
 export interface ResetPasswordRequest extends ResetPasswordForm {
 	code: string;
+}
+export interface ChangePasswordRequest extends ResetPasswordForm {
+	currentPassword: string;
 }
 
 export type CommentDataRequest = {
@@ -106,3 +112,15 @@ export interface CommentExtended extends Comment {
 export interface CourseExtended extends Course {
 	documentId?: string;
 }
+
+export interface UserExtended extends User {
+	documentId: string;
+	avatar?: Media;
+}
+
+export type UpdateProfilePayload = {
+	userId: number;
+	username: string;
+	email: string;
+	avatar?: number;
+};

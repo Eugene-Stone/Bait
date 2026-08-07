@@ -9,12 +9,15 @@ export async function getMe() {
 	}
 
 	try {
-		const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/me`, {
-			headers: {
-				Authorization: `Bearer ${token}`,
+		const response = await fetch(
+			`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/me?populate=*`,
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+				cache: 'no-store', // Отключаем fetch-кэш
 			},
-			cache: 'no-store', // Отключаем fetch-кэш
-		});
+		);
 
 		if (!response.ok) {
 			return null;
